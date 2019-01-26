@@ -202,6 +202,14 @@ const chartOptions = {
         help : "use \"1\"  or \"0\"",
         instructions : "Whether the x scale gets normalized after each filter",
         tmpl : inputTextTmpl
+    },{
+        optionType : "selectMenuOption",
+        id : "selectMenuOptionMultiple",
+        dcfunc : "multiple",
+        placeHolder : "true",
+        help : "use \"true\"  or \"false\"",
+        instructions : "show multiple or not",
+        tmpl : inputTextTmpl
     }]
 }
 

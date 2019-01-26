@@ -68,7 +68,7 @@ function addChart(chartData) {
 
 function chartTemplate(c) {
     return `
-            <div class='col-${c.width}' id='chart_${c.name}'>
+            <div class='col-${c.width} ml-0 p-0 mb-1 mr-1' id='chart_${c.name}'>
                 <div class='card'>
                     <div class="bid-clipboard">
                         <div class='btn-group btn-clipboard' role='group'>
