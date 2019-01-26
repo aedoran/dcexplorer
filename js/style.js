@@ -17,7 +17,9 @@ function initStyleBindings() {
 function updateStyle(s) {
 
     obj['styleString'] = s;
-    editors['styleEditor'].setValue(s);
+    if (editors['styleEditor']) {
+        editors['styleEditor'].setValue(s);
+    }
     $("#customStyle").html(s);
 }
 
