@@ -2,6 +2,7 @@ import { cleans, updateCleanTable } from './cleans.js'
 import { dims, updateDimTable } from './dims.js'
 import { grps, updateGrpTable } from './groups.js'
 import { charts, addChart } from './charts.js'
+import { getStyle, updateStyle } from './style.js'
 import { buildIndex, loadCrossDims } from './cross.js'
 import { getQueryStringParam } from './util.js'
 
@@ -32,7 +33,8 @@ function createConfig() {
         "cleans": cleans(),
         "dims" : dims(),
         "grps" : grps(),
-        "charts": charts()
+        "charts": charts(),
+        "style" : getStyle()
     }
     return data;
 }
@@ -53,6 +55,7 @@ function parseConfig(c) {
     updateGrpTable();
     updateCleanTable();
     updateDimTable();
+    updateStyle(c['style']);
 }
 
 function loadConfig(loc) {

@@ -112,5 +112,6 @@
         "html": "{\n one:\"%number Enrolled\",\n some:\"%number Enrolled\",\n none:\"None\"\n }"
       }
     }
-  ]
+  ],
+  "style": "body {\n    background: red;\n}"
 }

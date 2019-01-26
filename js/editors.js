@@ -1,9 +1,13 @@
 const editors = {}
 
-function createEditor(id) {
+function createEditor(id,mode) {
     const editor = ace.edit(id);
     editor.setTheme("ace/theme/monokai");
-    editor.session.setMode("ace/mode/javascript");
+    if (mode) { 
+        editor.session.setMode(mode);
+    } else { 
+        editor.session.setMode("ace/mode/javascript");
+    }
     editors[id] = editor;
 }
 
