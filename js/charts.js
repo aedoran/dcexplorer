@@ -28,14 +28,18 @@ function addChart(chartData) {
   var selector = "#chart_"+chartData['name']+" .card-body";
   var chart = dc[chartData['chartType']](selector);
 
-
   if (chartData['chartType'] != 'numberDisplay') {
     chart.dimension(dim);
   }
 
-    chart.group(grp)
-        .width($(selector).width())
-        .height(parseInt(chartData['height']));
+  if (chartData['chartType'] != 'selectMenu') {
+    chart.group(grp);
+  } else {
+    chart.group(dim.group());
+  }
+
+        chart.width($(selector).width())
+         .height(parseInt(chartData['height']));
 
   if (chartData['options']) {
       Object.keys(chartData['options']).forEach(function(o) {
@@ -83,6 +87,7 @@ function initChartBindings() {
         $("#addChartButton").click(function() {
             addChart(buildChartObj())
         });
+        generateChartOptions();
         $("#chartType").on('change',generateChartOptions);
         generateChartOptions();
         function dimViewModel() {
@@ -110,6 +115,7 @@ function editChart(chartid) {
         $("#chartType").val(chartData['chartType']);
         $("#chartWidth").val(chartData['width']);
         $("#chartHeight").val(chartData['height']);
+        generateChartOptions(chartData);
     }
 }
 
@@ -132,7 +138,7 @@ function buildChartObj() {
         "width" :  $("#chartWidth").val(),
         "height" :  $("#chartHeight").val()
     }
-    chartData['options'] = buildChartOptions(chartType);;
+    chartData['options'] = buildChartOptions(chartType);
     return chartData;
 }
 

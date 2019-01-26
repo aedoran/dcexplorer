@@ -24,7 +24,7 @@ function initEditor(id) {
     }
 }
 
-function generateChartOptions() {
+function generateChartOptions(chartData) {
   var chartType = $("#chartType").val()
   var html = "";
   chartOptions[chartType].forEach(function(o) {
@@ -37,6 +37,32 @@ function generateChartOptions() {
             o['init']();
         }
   });
+  if (chartData) {
+      $(`#chartOptions .${chartType}Option`).each(function() {
+            var dcfunc = $(this).attr('dcfunc');
+            var id = $(this).attr('id');
+            var el = $(this);
+            setHTMLOption(id,dcfunc,el,chartData);
+      });
+  }
+}
+
+function setHTMLOption(id,dcfunc,el,chartData) {
+    var setFunc;
+    if (el.hasClass("ace_editor")) {
+        setFunc = function(v) { editors[id].setValue(v) };
+    } else {
+        setFunc = function(v) { el.val(v) };
+    }
+
+    if (id.indexOf("XAxis") != -1) {
+        setFunc(chartData.options['xAxis'][dcfunc]);
+    }
+    else if (id.indexOf("YAxis") != -1) {
+        setFunc(chartData.options['yAxis'][dcfunc]);
+    } else {
+        setFunc(chartData.options[dcfunc]);
+    }
 }
 
 function buildChartOptions(chartType) {
@@ -48,7 +74,7 @@ function buildChartOptions(chartType) {
         //chartOptions[dfunc] = editors[id].getValue();
         setOption(chartOptions,id,dfunc,editors[id].getValue()) 
     } else{
-        setOption(chartOptions,id,dfunc,$(this).val())  
+        setOption(chartOptions,id,dfunc,$(this).val())
     }
   });
 
@@ -167,6 +193,15 @@ const chartOptions = {
         help : "use this: https://github.com/d3/d3-format to understand how to do more",
         tmpl : editorInputTmpl,
         init : initEditor('barChartOptionYAxisTickFormat')
+    }],
+    "selectMenu" : [{
+        optionType : "selectMenuOption",
+        id : "selectMenuOptionControlsUseVisibility",
+        dcfunc : "controlsUseVisibility",
+        placeHolder : "1",
+        help : "use \"1\"  or \"0\"",
+        instructions : "Whether the x scale gets normalized after each filter",
+        tmpl : inputTextTmpl
     }]
 }
 

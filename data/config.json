@@ -1,4 +1,30 @@
 {
+  "cleans": [
+    {
+      "name": "control",
+      "func": "function clean(d) {\n    var val = ''\n    switch(parseInt(d['CONTROL'])) { \n        case 1:\n            val = \"Public\"\n            break;\n        case 2:\n            val = \"Private not-for-profit\"\n            break;\n        case 3:\n            val = \"Private for-profit\"\n            break;\n        case 4:\n            val = \"(Not Available)\"\n            break;\n    }\n    return val;\n}",
+      "editLink": "<button cid='control' class='cleanEditButton' role='button'>Edit</button>",
+      "removeLink": "<button cid='control' class='cleanRemoveButton' role='button'>Remove</button>"
+    },
+    {
+      "name": "enrolled",
+      "func": "function clean(d) {\n    return  parseInt(d['EFDETOT_All']) || 0\n}",
+      "editLink": "<button cid='enrolled' class='cleanEditButton' role='button'>Edit</button>",
+      "removeLink": "<button cid='enrolled' class='cleanRemoveButton' role='button'>Remove</button>"
+    },
+    {
+      "name": "degreegrant",
+      "func": "function clean(d) {\n    var val = ''\n    switch(parseInt(d['DEGGRANT'])) { \n        case 1:\n            val = \"Degree-granting\"\n            break;\n        case 2:\n            val = \"Nondegree-granting, primarily postsecondary\"\n            break;\n        case -3:\n            val = \"(Not Available)\"\n            break;\n    }\n    return val;\n}",
+      "editLink": "<button cid='degreegrant' class='cleanEditButton' role='button'>Edit</button>",
+      "removeLink": "<button cid='degreegrant' class='cleanRemoveButton' role='button'>Remove</button>"
+    },
+    {
+      "name": "year",
+      "func": "function clean(d) {\n    return parseInt(d['YEAR']) || 0\n}",
+      "editLink": "<button cid='year' class='cleanEditButton' role='button'>Edit</button>",
+      "removeLink": "<button cid='year' class='cleanRemoveButton' role='button'>Remove</button>"
+    }
+  ],
   "dims": [
     {
       "name": "controlDim",
@@ -47,32 +73,6 @@
       "removeLink": "<button gid='enrolled' class='groupRemoveButton' role='button'>Remove</button>"
     }
   ],
-  "cleans": [
-    {
-      "name": "control",
-      "func": "function clean(d) {\n    var val = ''\n    switch(parseInt(d['CONTROL'])) { \n        case 1:\n            val = \"Public\"\n            break;\n        case 2:\n            val = \"Private not-for-profit\"\n            break;\n        case 3:\n            val = \"Private for-profit\"\n            break;\n        case 4:\n            val = \"(Not Available)\"\n            break;\n    }\n    return val;\n}",
-      "editLink": "<button cid='control' class='cleanEditButton' role='button'>Edit</button>",
-      "removeLink": "<button cid='control' class='cleanRemoveButton' role='button'>Remove</button>"
-    },
-    {
-      "name": "enrolled",
-      "func": "function clean(d) {\n    return  parseInt(d['EFDETOT_All']) || 0\n}",
-      "editLink": "<button cid='enrolled' class='cleanEditButton' role='button'>Edit</button>",
-      "removeLink": "<button cid='enrolled' class='cleanRemoveButton' role='button'>Remove</button>"
-    },
-    {
-      "name": "degreegrant",
-      "func": "function clean(d) {\n    var val = ''\n    switch(parseInt(d['DEGGRANT'])) { \n        case 1:\n            val = \"Degree-granting\"\n            break;\n        case 2:\n            val = \"Nondegree-granting, primarily postsecondary\"\n            break;\n        case -3:\n            val = \"(Not Available)\"\n            break;\n    }\n    return val;\n}",
-      "editLink": "<button cid='degreegrant' class='cleanEditButton' role='button'>Edit</button>",
-      "removeLink": "<button cid='degreegrant' class='cleanRemoveButton' role='button'>Remove</button>"
-    },
-    {
-      "name": "year",
-      "func": "function clean(d) {\n    return parseInt(d['YEAR']) || 0\n}",
-      "editLink": "<button cid='year' class='cleanEditButton' role='button'>Edit</button>",
-      "removeLink": "<button cid='year' class='cleanRemoveButton' role='button'>Remove</button>"
-    }
-  ],
   "charts": [
     {
       "name": "pieControlCount",
@@ -105,11 +105,22 @@
       "dim": "nodimension",
       "grp": "enrolled",
       "chartType": "numberDisplay",
-      "width": "2",
+      "width": "4",
       "height": "200",
       "options": {
         "valueAccessor": "function (d) { return d.value.sum }",
-        "html": "{\n one:\"%number Enrolled\",\n some:\"%number Enrolled\",\n none:\"None\"\n }"
+        "html": "{\n one:\"%number Monkey\",\n some:\"%number Total Monkeys\",\n none:\"No Monkeys\"\n }"
+      }
+    },
+    {
+      "name": "selectMenu",
+      "dim": "controlDim",
+      "grp": "simpleCount",
+      "chartType": "selectMenu",
+      "width": "5",
+      "height": "200",
+      "options": {
+        "controlsUseVisibility": "1"
       }
     }
   ],
