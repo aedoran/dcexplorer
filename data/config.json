@@ -17,6 +17,12 @@
       "func": "function getDim(d) {\n    return d['year'];\n}",
       "editLink": "<button did='yearDim' class='dimEditButton' role='button'>Edit</button>",
       "removeLink": "<button did='yearDim' class='dimRemoveButton' role='button'>Remove</button>"
+    },
+    {
+      "name": "nodimension",
+      "func": "function getDim(d) {\n    return 1;\n}",
+      "editLink": "<button did='nodimension' class='dimEditButton' role='button'>Edit</button>",
+      "removeLink": "<button did='nodimension' class='dimRemoveButton' role='button'>Remove</button>"
     }
   ],
   "grps": [
@@ -92,6 +98,18 @@
           "tickFormat": "d3.format('.2s')"
         },
         "elasticX": "1"
+      }
+    },
+    {
+      "name": "numberAvgEnrollment",
+      "dim": "nodimension",
+      "grp": "enrolled",
+      "chartType": "numberDisplay",
+      "width": "2",
+      "height": "200",
+      "options": {
+        "valueAccessor": "function (d) { return d.value.sum }",
+        "html": "{\n one:\"%number Enrolled\",\n some:\"%number Enrolled\",\n none:\"None\"\n }"
       }
     }
   ]

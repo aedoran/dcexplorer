@@ -29,8 +29,11 @@ function addChart(chartData) {
   var chart = dc[chartData['chartType']](selector);
 
 
-  chart.dimension(dim)
-        .group(grp)
+  if (chartData['chartType'] != 'numberDisplay') {
+    chart.dimension(dim);
+  }
+
+    chart.group(grp)
         .width($(selector).width())
         .height(parseInt(chartData['height']));
 
