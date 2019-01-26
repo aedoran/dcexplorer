@@ -4,6 +4,7 @@ import { initCleanBindings } from './cleans.js'
 import { initDimBindings } from './dims.js'
 import { initGroupBindings } from './groups.js'
 import { initChartBindings } from './charts.js'
+import { initStyleBindings } from './style.js'
 
 function loadEditor() {
     console.debug("loadEditor");
@@ -13,6 +14,7 @@ function loadEditor() {
     initDimBindings();
     initGroupBindings();
     initChartBindings();
+    initStyleBindings();
 }
 
 function loadViz() {
