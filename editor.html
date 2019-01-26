@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>DC Editor</title>
+
+    <!-- Bootstrap core CSS-->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Page level plugin CSS-->
+    <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin.css" rel="stylesheet">
+    <!-- DC CSS-->
+    <link href="css/dc.css" rel="stylesheet">
+<style type="text/css" media="screen">
+    .modal-editor {
+        width: 400px;
+        height: 300px;
+    }
+
+.btn-clipboard {
+    position: absolute;
+    top: .5rem;
+    right: .5rem;
+    z-index: 10;
+    display: block;
+    padding: .25rem .5rem;
+    font-size: 75%;
+    color: #818a91;
+    cursor: pointer;
+    background-color: transparent;
+    border: 0;
+    border-radius: .25rem;
+}
+.bd-clipboard {
+    position: relative;
+    float: right;
+}
+
+
+
+
+</style>
+  </head>
+
+  <body id="page-top">
+
+    <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+
+      <a class="navbar-brand mr-1" href="index.html">DC Explorer</a>
+
+      <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+        <i class="fas fa-bars"></i>
+      </button>
+
+
+
+
+    </nav>
+
+<!-- Cleaner Modal -->
+<div class="modal fade" id="cleanModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">CleanerModal</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="container-fluid">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="columnCleanerTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Column</th>
+                      <th>Cardinality</th>
+                      <th>Nulls</th>
+                      <th>NumberLike</th>
+                      <th>dateLike</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+            </div>
+<form>
+  <div class="form-group">
+    <label for="cleanName">Name your clean column</label>
+    <input class="form-control" id="cleanName" aria-describedby="cleanNameHelp" placeholder="Name your clean column">
+    <small id="cleanNameHelp" class="form-text text-muted">use camelCasing, it should be a javascript variable name.</small>
+  </div>
+  <div class="form-group">
+    <label for="cleanJSFunction">Cleaning Function</label>
+    <div id="cleanEditor" class='modal-editor'>function clean(d) {
+    return  d['column'] || 0
+}</div>
+    <small id="cleanJSFunctionHelp" class="form-text text-muted">d is a row and this function should reeturn a number or string</small>
+  </div>
+</form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button id="saveCleanButton" type="button" class="btn btn-primary">Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Dim Modal -->
+<div class="modal fade" id="dimModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Dimension Register</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="container-fluid">
+<form>
+  <div class="form-group">
+    <label for="dimName">Name your dimension</label>
+    <input class="form-control" id="dimName" aria-describedby="dimNameHelp" placeholder="Name your dimension">
+    <small id="dimNameHelp" class="form-text text-muted">use camelCasing, it should be a javascript variable name..</small>
+  </div>
+  <div class="form-group">
+    <label for="dimJSFunction">Dimension Function</label>
+    <div id="dimEditor" class='modal-editor'>function getDim(d) {
+    return d['columnName'];
+}</div>
+    <small id="dimJSFunctionHelp" class="form-text text-muted">this is the function to be used in crossfilter.</small>
+  </div>
+</form>
+
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" id="saveDimButton" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Grp Modal -->
+<div class="modal fade" id="grpModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Group Register</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="container-fluid">
+<form>
+  <div class="form-group">
+    <label for="grpName">Name your group</label>
+    <input class="form-control" id="grpName" aria-describedby="grpNameHelp" placeholder="Name your group">
+    <small id="grpNameHelp" class="form-text text-muted">use camelCasing, it should be a javascript variable name..</small>
+  </div>
+  <div class="form-group">
+    <label for="grpDim">Choose Grouping Functions</label>
+    <div>
+    <select multiple id="grpFuncs">
+        <option value="count">count</option>    
+        <option value="sum">sum</option>    
+        <option value="avg">avg</option>    
+    </select>
+    </div>
+  </div>
+
+
+  <div class="form-group">
+    <label for="dimJSFunction">Group Function</label>
+    <div id="grpEditor" class='modal-editor'>function getGrp(d) {
+    return d['columnName'];
+}</div>
+    <small id="grpJSFunctionHelp" class="form-text text-muted">this is the function to be used to do your sums</small>
+  </div>
+</form>
+
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="saveGroupButton">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Source Modal -->
+<div class="modal fade" id="sourceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Load Source Data</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="container-fluid">
+            <form>
+              <div class="form-group">
+                <label for="soureLocation">Enter in the location for your source data</label>
+                <input class="form-control" id="sourceLocation" aria-describedby="sourceLocationHelp" placeholder="url for the source data" value="http://127.0.01:8000/data/ipeds_raw_small.tsv">
+                <small id="sourceLocationHelp" class="form-text text-muted">If the file extension ends with tsv or csv, it will use that to inform how to parse</small>
+              </div>
+            </form>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="loadSourceButton">Load Source</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Config Modal -->
+<div class="modal fade" id="configModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Load a Config</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="container-fluid">
+            <form>
+              <div class="form-group">
+                <label for="dimName">Name your dimension</label>
+                <input class="form-control" id="configLocation" aria-describedby="configLocationHelp" placeholder="url for the config" value="http://127.0.0.1:8000/config.json">
+                <small id="configLocationHelp" class="form-text text-muted">This should be the location of where your config.json is</small>
+              </div>
+            </form>
+
+            </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="loadConfigButton">Load Config</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Chart Add -->
+<div class="modal fade" id="chartModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add a chart</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="container-fluid">
+            <form>
+              <div class="form-group">
+                <label for="chartName">Name your chart</label>
+                <input class="form-control" id="chartName" aria-describedby="nameChartHelp" placeholder="">
+                <small id="nameChartHelp" class="form-text -muted">just an identifier for the chart</small>
+              </div>
+              <div class="form-group">
+                <label for="chartDim">Choose The Dimension its based on</label>
+                  <select id="chartDim" data-bind="options: dims,
+                               optionsText: 'name',
+                               optionsValue: 'name'
+                               "></select>
+              </div>
+              <div class="form-group">
+                <label for="chartGrp">Choose The Group its based on</label>
+                  <select id="chartGrp" data-bind="options: grps,
+                               optionsText: 'name',
+                               optionsValue: 'name'
+                               "></select>
+              </div>
+              <div class="form-group">
+                <label for="chartWidth">Choose A Chart Width</label>
+                  <select id="chartWidth">
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10">10</option>
+                  </select>
+              </div>
+              <div class="form-group">
+                <label for="chartHeight">Choose A Chart Height</label>
+                  <input class="form-control" id="chartHeight" aria-describedby="heighthChartHelp" placeholder="">
+                  <small id="heighthChartHelp" class="form-text -muted">number of pixels</small>
+              </div>
+              <div class="form-group">
+                <label for="chartType">Choose A Chart Type</label>
+                  <select id="chartType">
+                      <option value="pieChart">pieChart</option>
+                      <option value="rowChart">rowChart</option>
+                      <option value="barChart">barChart</option>
+                      <option value="numberDisplay">numberDisplay</option>
+                  </select>
+              </div>
+              <div id="chartOptions">
+                Chart Options   
+              </div>
+            </form>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="addChartButton">Add Chart</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <div id="wrapper">
+
+      <!-- Sidebar -->
+      <ul class="sidebar navbar-nav">
+        <li class="nav-item">
+        <a class="nav-link" data-toggle="modal" data-target="#cleanModal">
+            Clean the Data
+        </a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" id="downloadCleanedButton">
+            Download Cleaned Data
+        </a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" data-toggle="modal" data-target="#dimModal">
+            Add a Dimension
+        </a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" data-toggle="modal" data-target="#grpModal">
+            Add a Group
+        </a>
+        <li class="nav-item">
+        <a class="nav-link" data-toggle="modal" data-target="#sourceModal">
+            Load Source Data
+        </a>
+        </li>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" data-toggle="modal" data-target="#configModal">
+            Load Config
+        </a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" id="downloadConfigButton">
+            Download Config
+        </a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" data-toggle="modal" data-target="#chartModal">
+            Add a Chart
+        </a>
+        </li>
+      </ul>
+      <div id="content-wrapper">
+
+        <div class="container-fluid">
+
+
+
+
+        <div class="row" id="graphContainer">
+        </div>
+
+
+          <!-- DataTable Clean -->
+          <div class="card mb-3">
+            <div class="card-header">
+              <i class="fas fa-table"></i>
+              Cleaned Column</div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="cleanTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Edit</th>
+                      <th>Remove</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- DataTable Dim -->
+          <div class="card mb-3">
+            <div class="card-header">
+              <i class="fas fa-table"></i>
+              Dimensions</div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dimTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Edit</th>
+                      <th>Remove</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- DataTable Grp -->
+          <div class="card mb-3">
+            <div class="card-header">
+              <i class="fas fa-table"></i>
+              Groups</div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="grpTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Edit</th>
+                      <th>Remove</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+        <!-- /.container-fluid -->
+
+        <!-- Sticky Footer -->
+        <footer class="sticky-footer">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Copyright © Your Website 2018</span>
+            </div>
+          </div>
+        </footer>
+
+      </div>
+      <!-- /.content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <a class="btn btn-primary" href="login.html">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Page level plugin JavaScript-->
+<!--
+    <script src="vendor/chart.js/Chart.min.js"></script>
+-->
+    <script src="vendor/datatables/jquery.dataTables.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin.min.js"></script>
+
+    <!-- Demo scripts for this page-->
+    <script src="js/demo/datatables-demo.js"></script>
+<!--
+    <script src="js/demo/chart-area-demo.js"></script>
+-->
+    <!-- code editor -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.2/ace.js" type="text/javascript" charset="utf-8"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+<!--
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+-->
+<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+      <script src="https://unpkg.com/d3@5/dist/d3.js"></script>
+      <script src="https://unpkg.com/crossfilter2@1.4/crossfilter.js"></script>
+      <script src="https://unpkg.com/dc@3/dc.js"></script>
+      <script src="https://rawgit.com/crossfilter/reductio/master/reductio.js"></script>
+      <!--
+      <script src="https://npmcdn.com/universe@latest/universe.js"></script>
+      -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
+      <!-- <script src="/js/dcer2.js"></script> -->
+    <script type="module">
+        import { loadEditor } from './js/dcer.js'
+        loadEditor();
+    </script>
+  </body>
+</html>

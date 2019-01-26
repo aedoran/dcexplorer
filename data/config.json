@@ -1,0 +1,98 @@
+{
+  "dims": [
+    {
+      "name": "controlDim",
+      "func": "function getDim(d) {\n    return d['control'];\n}",
+      "editLink": "<button did='controlDim' class='dimEditButton' role='button'>Edit</button>",
+      "removeLink": "<button did='controlDim' class='dimRemoveButton' role='button'>Remove</button>"
+    },
+    {
+      "name": "degreeGrantDim",
+      "func": "function getDim(d) {\n    return d['degreegrant'];\n}",
+      "editLink": "<button did='degreeGrantDim' class='dimEditButton' role='button'>Edit</button>",
+      "removeLink": "<button did='degreeGrantDim' class='dimRemoveButton' role='button'>Remove</button>"
+    },
+    {
+      "name": "yearDim",
+      "func": "function getDim(d) {\n    return d['year'];\n}",
+      "editLink": "<button did='yearDim' class='dimEditButton' role='button'>Edit</button>",
+      "removeLink": "<button did='yearDim' class='dimRemoveButton' role='button'>Remove</button>"
+    }
+  ],
+  "grps": [
+    {
+      "name": "simpleCount",
+      "func": "function getGrp(d) {\n return d['columnName'];\n}",
+      "aggs": [
+        "count"
+      ],
+      "editLink": "<button gid='simpleCount' class='groupEditButton' role='button'>Edit</button>",
+      "removeLink": "<button gid='simpleCount' class='groupRemoveButton' role='button'>Remove</button>"
+    },
+    {
+      "name": "enrolled",
+      "func": "function getGrp(d) {\n    return d['enrolled'];\n}",
+      "aggs": [
+        "count",
+        "sum",
+        "avg"
+      ],
+      "editLink": "<button gid='enrolled' class='groupEditButton' role='button'>Edit</button>",
+      "removeLink": "<button gid='enrolled' class='groupRemoveButton' role='button'>Remove</button>"
+    }
+  ],
+  "cleans": [
+    {
+      "name": "control",
+      "func": "function clean(d) {\n    var val = ''\n    switch(parseInt(d['CONTROL'])) { \n        case 1:\n            val = \"Public\"\n            break;\n        case 2:\n            val = \"Private not-for-profit\"\n            break;\n        case 3:\n            val = \"Private for-profit\"\n            break;\n        case 4:\n            val = \"(Not Available)\"\n            break;\n    }\n    return val;\n}",
+      "editLink": "<button cid='control' class='cleanEditButton' role='button'>Edit</button>",
+      "removeLink": "<button cid='control' class='cleanRemoveButton' role='button'>Remove</button>"
+    },
+    {
+      "name": "enrolled",
+      "func": "function clean(d) {\n    return  parseInt(d['EFDETOT_All']) || 0\n}",
+      "editLink": "<button cid='enrolled' class='cleanEditButton' role='button'>Edit</button>",
+      "removeLink": "<button cid='enrolled' class='cleanRemoveButton' role='button'>Remove</button>"
+    },
+    {
+      "name": "degreegrant",
+      "func": "function clean(d) {\n    var val = ''\n    switch(parseInt(d['DEGGRANT'])) { \n        case 1:\n            val = \"Degree-granting\"\n            break;\n        case 2:\n            val = \"Nondegree-granting, primarily postsecondary\"\n            break;\n        case -3:\n            val = \"(Not Available)\"\n            break;\n    }\n    return val;\n}",
+      "editLink": "<button cid='degreegrant' class='cleanEditButton' role='button'>Edit</button>",
+      "removeLink": "<button cid='degreegrant' class='cleanRemoveButton' role='button'>Remove</button>"
+    },
+    {
+      "name": "year",
+      "func": "function clean(d) {\n    return parseInt(d['YEAR']) || 0\n}",
+      "editLink": "<button cid='year' class='cleanEditButton' role='button'>Edit</button>",
+      "removeLink": "<button cid='year' class='cleanRemoveButton' role='button'>Remove</button>"
+    }
+  ],
+  "charts": [
+    {
+      "name": "pieControlCount",
+      "dim": "controlDim",
+      "grp": "simpleCount",
+      "chartType": "pieChart",
+      "width": "4",
+      "height": "200",
+      "options": {
+        "valueAccessor": "function (d) { return d.value.count }"
+      }
+    },
+    {
+      "name": "rowDegreeCount",
+      "dim": "degreeGrantDim",
+      "grp": "enrolled",
+      "chartType": "rowChart",
+      "width": "7",
+      "height": "200",
+      "options": {
+        "valueAccessor": "function (d) { return d.value.sum }",
+        "xAxis": {
+          "tickFormat": "d3.format('.2s')"
+        },
+        "elasticX": "1"
+      }
+    }
+  ]
+}

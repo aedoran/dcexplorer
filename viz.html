@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>DC Editor</title>
+
+    <!-- Bootstrap core CSS-->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Page level plugin CSS-->
+    <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin.css" rel="stylesheet">
+    <!-- DC CSS-->
+    <link href="css/dc.css" rel="stylesheet">
+<style type="text/css" media="screen">
+    .modal-editor {
+        width: 400px;
+        height: 300px;
+    }
+
+.btn-clipboard {
+    position: absolute;
+    top: .5rem;
+    right: .5rem;
+    z-index: 10;
+    display: block;
+    padding: .25rem .5rem;
+    font-size: 75%;
+    color: #818a91;
+    cursor: pointer;
+    background-color: transparent;
+    border: 0;
+    border-radius: .25rem;
+    display: none;
+}
+.bd-clipboard {
+    position: relative;
+    float: right;
+}
+.bd-clipboard button {
+    display: none;
+}
+
+
+
+
+</style>
+  </head>
+
+  <body id="page-top">
+
+
+    <div id="wrapper">
+
+      <div id="content-wrapper">
+
+        <div class="container-fluid">
+
+
+
+
+        <div class="row" id="graphContainer">
+        </div>
+
+
+
+
+
+
+
+      </div>
+      <!-- /.content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Page level plugin JavaScript-->
+<!--
+    <script src="vendor/chart.js/Chart.min.js"></script>
+-->
+    <script src="vendor/datatables/jquery.dataTables.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin.min.js"></script>
+
+    <!-- Demo scripts for this page-->
+    <script src="js/demo/datatables-demo.js"></script>
+<!--
+    <script src="js/demo/chart-area-demo.js"></script>
+-->
+    <!-- code editor -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.2/ace.js" type="text/javascript" charset="utf-8"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+<!--
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+-->
+<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+      <script src="https://unpkg.com/d3@5/dist/d3.js"></script>
+      <script src="https://unpkg.com/crossfilter2@1.4/crossfilter.js"></script>
+      <script src="https://unpkg.com/dc@3/dc.js"></script>
+      <script src="https://rawgit.com/crossfilter/reductio/master/reductio.js"></script>
+      <!-- 
+      <script src="https://npmcdn.com/universe@latest/universe.js"></script>
+      -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
+    <script type="module">
+        import { loadViz } from './js/dcer.js'
+        loadViz();
+    </script>
+  </body>
+</html>
