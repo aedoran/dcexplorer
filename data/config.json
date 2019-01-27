@@ -1,12 +1,6 @@
 {
   "cleans": [
     {
-      "name": "control",
-      "func": "function clean(d) {\n    var val = ''\n    switch(parseInt(d['CONTROL'])) { \n        case 1:\n            val = \"Public\"\n            break;\n        case 2:\n            val = \"Private not-for-profit\"\n            break;\n        case 3:\n            val = \"Private for-profit\"\n            break;\n        case 4:\n            val = \"(Not Available)\"\n            break;\n    }\n    return val;\n}",
-      "editLink": "<button cid='control' class='cleanEditButton' role='button'>Edit</button>",
-      "removeLink": "<button cid='control' class='cleanRemoveButton' role='button'>Remove</button>"
-    },
-    {
       "name": "enrolled",
       "func": "function clean(d) {\n    return  parseInt(d['EFDETOT_All']) || 0\n}",
       "editLink": "<button cid='enrolled' class='cleanEditButton' role='button'>Edit</button>",
@@ -29,6 +23,18 @@
       "func": "function clean(d) {\n    return  d[\"STABBR\"] || \"asdf\";\n}",
       "editLink": "<button cid='state' class='cleanEditButton' role='button'>Edit</button>",
       "removeLink": "<button cid='state' class='cleanRemoveButton' role='button'>Remove</button>"
+    },
+    {
+      "name": "county",
+      "func": "function clean(d) {\n    return  parseInt(d['COUNTYCD']) || 0\n}",
+      "editLink": "<button cid='county' class='cleanEditButton' role='button'>Edit</button>",
+      "removeLink": "<button cid='county' class='cleanRemoveButton' role='button'>Remove</button>"
+    },
+    {
+      "name": "control",
+      "func": "function clean(d) {\n    var val = ''\n    switch(parseInt(d['CONTROL'])) { \n        case 1:\n            val = \"Public\"\n            break;\n        case 2:\n            val = \"Private not-for-profit\"\n            break;\n        case 3:\n            val = \"Private for-profit\"\n            break;\n        case 4:\n            val = \"(Not Available)\"\n            break;\n    }\n    return val;\n}",
+      "editLink": "<button cid='control' class='cleanEditButton' role='button'>Edit</button>",
+      "removeLink": "<button cid='control' class='cleanRemoveButton' role='button'>Remove</button>"
     }
   ],
   "dims": [
@@ -61,6 +67,12 @@
       "func": "function getDim(d) {\n    return d['state'];\n}",
       "editLink": "<button did='stateDim' class='dimEditButton' role='button'>Edit</button>",
       "removeLink": "<button did='stateDim' class='dimRemoveButton' role='button'>Remove</button>"
+    },
+    {
+      "name": "countyDim",
+      "func": "function getDim(d) {\n    return d['county'];\n}",
+      "editLink": "<button did='countyDim' class='dimEditButton' role='button'>Edit</button>",
+      "removeLink": "<button did='countyDim' class='dimRemoveButton' role='button'>Remove</button>"
     }
   ],
   "grps": [
@@ -123,7 +135,7 @@
       "heading": "",
       "options": {
         "valueAccessor": "function (d) { return d.value.count }",
-        "html": "{\n one:\"%number Monkey\",\n some:\"%number Total Monkeys\",\n none:\"No Monkeys\"\n }"
+        "html": "{\n one:\"%number School\",\n some:\"%number Total Schools\",\n none:\"No Schools\"\n }"
       }
     },
     {
@@ -138,20 +150,37 @@
       }
     },
     {
-      "name": "pieState2dfd",
+      "name": "choroplethStateCount",
       "dim": "stateDim",
-      "grp": "simpleCount",
+      "grp": "enrolled",
       "chartType": "geoChoroplethChart",
-      "width": "10",
-      "height": "500",
+      "width": "7",
+      "height": "300",
       "heading": "Schools By State",
       "options": {
-        "valueAccessor": "function (d) { return d.value.count }",
+        "valueAccessor": "function (d) { return (d.value && d.value.count) || 0 }",
+        "colors": "d3.scaleQuantize().range([\"#E2F2FF\", \"#C4E4FF\", \"#9ED2FF\", \"#81C5FF\", \"#6BBAFF\", \"#51AEFF\", \"#36A2FF\", \"#1E96FF\", \"#0089FF\", \"#0061B5\"])",
+        "colorDomain": "[0, 400]",
+        "colorCalculator": "function (d) { return d ? this.colors()(d) : '#ccc'; }",
+        "GEO": "usstates"
+      }
+    },
+    {
+      "name": "choroplethCountyCount",
+      "dim": "countyDim",
+      "grp": "enrolled",
+      "chartType": "geoChoroplethChart",
+      "width": "7",
+      "height": "300",
+      "heading": "Schools By County",
+      "options": {
+        "valueAccessor": "function (d) { return (d.value && d.value.count) || 0 }",
         "colors": "d3.scaleQuantize().range([\"#E2F2FF\", \"#C4E4FF\", \"#9ED2FF\", \"#81C5FF\", \"#6BBAFF\", \"#51AEFF\", \"#36A2FF\", \"#1E96FF\", \"#0089FF\", \"#0061B5\"])",
         "colorDomain": "[0, 200]",
-        "colorCalculator": "function (d) { return d ? this.colors()(d) : '#ccc'; }"
+        "colorCalculator": "function (d) { return d ? this.colors()(d) : '#ccc'; }",
+        "GEO": "uscounties"
       }
     }
   ],
-  "style": "body {\n    background: red;\n}"
+  "style": "body {\n    background: white;\n}"
 }

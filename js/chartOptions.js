@@ -21,7 +21,7 @@ function selectInputTmpl(c) {
     return `
             <div class='form-group'>
                 <label for='${c.id}'>${c.instructions}</label>
-                <select id='${c.id}' dcfunc='${c.dcfunc}' calss='${c.optionType}'>
+                <select id='${c.id}' dcfunc='${c.dcfunc}' class='${c.optionType}'>
                 </select>
                 <small id='${c.id}Help' class='form-text text-muted'>${c.help}</small>
             </div>`
@@ -162,7 +162,7 @@ const chartOptions = {
         instructions: 'Choose a map',
         help: 'This chooses which map to use',
         tmpl : selectInputTmpl,
-        init : initSelect('geoChoroplethChartOptionOverlayGEO',['usstates'])
+        init : initSelect('geoChoroplethChartOptionOverlayGEO',['usstates','uscounties'])
     }],
     "numberDisplay" : [{
         optionType : "numberDisplayOption",

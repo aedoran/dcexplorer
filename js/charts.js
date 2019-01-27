@@ -5,14 +5,50 @@ import { crossDims } from './cross.js'
 
 const charts = ko.observableArray();
 
+const currentpath = window.location.origin +
+                    location.pathname.split('/').splice(0,location.pathname.split('/').length-1).join("/");
+
+const mapmap = {
+    'usstates' : {
+        "loc" : currentpath + '/data/us-states.json',
+        "id" : "state",
+        "lookup" : function(d) { return d.properties.name },
+        "arr" : function(f) { return f.features }
+    },
+    'uscounties' : {
+        "loc" : currentpath + '/data/us-counties.json',
+        "id" : "id",
+        "lookup" : function(d) { return d.id.toString() },
+        "arr" : function(f) { return f.features }
+    }
+}
+
+function downloadThing(json,filename) {
+  var blob = new Blob([JSON.stringify(json)], {type : "application/json"});
+      $("<a />", {
+        "download": filename,
+        "href" : window.URL.createObjectURL(blob)
+      }).appendTo("body")
+      .click(function() {
+         $(this).remove()
+      })[0].click()
+}
+
+
 function addChart(chartData) {
   if (chartData['chartType'] == 'geoChoroplethChart') {
-    var data_loc = window.location.origin + 
-                    location.pathname.split('/').splice(0,location.pathname.split('/').length-1).join("/") +
-                    '/data/us-states.json';
-    d3.json(data_loc).then(function(map) {
-        console.log(map);
-        doStuff(map);
+    var maptype = chartData.options['GEO'];
+    d3.json(mapmap[maptype].loc).then(function(map) {
+        if (maptype == 'uscounties') {
+            //var test = topojson.transform({"scale": [.5,.5]})
+            //console.log(map);
+            //var test2 = topojson.feature(map,map.objects.counties);
+            //downloadThing(test2,'us-counties.json')
+            console.log(map);
+            doStuff(map);
+        } else {
+            doStuff(map);
+        }
     });
   } else {
     doStuff();
@@ -55,14 +91,18 @@ function addChart(chartData) {
       }
 
         if (chartData['chartType'] == 'geoChoroplethChart') {
-            chart.overlayGeoJson(preload.features,"state", function(d) { return d.properties.name });
+            var maptype = chartData.options['GEO'];
+            chart.overlayGeoJson(mapmap[maptype].arr(preload),mapmap[maptype].id, mapmap[maptype].lookup);
+            chart.projection(d3.geoAlbersUsa().fitSize([$(selector).width(),chartData['height']],preload))
         }
 
         chart.width($(selector).width())
          .height(parseInt(chartData['height']));
 
       if (chartData['options']) {
-          Object.keys(chartData['options']).forEach(function(o) {
+          Object.keys(chartData['options'])
+            .filter(function(o) { return o != 'GEO' })
+            .forEach(function(o) {
             if (o == "xAxis") {
                 Object.keys(chartData['options'][o]).forEach(function(ox) {
                     var get_func = "(function a() { return "+chartData['options'][o][ox]+ " })()";

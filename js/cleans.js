@@ -1,4 +1,5 @@
 import { editors, createEditor } from './editors.js';
+import { buildIndex } from './cross.js';
 import { raw } from './loadRaw.js';
 
 const cleans = ko.observableArray();
