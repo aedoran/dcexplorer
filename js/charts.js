@@ -24,6 +24,9 @@ function addChart(chartData) {
   $("#graphContainer").append(html);
 
 
+  if (chartData['heading']) {
+    $(`#chart_${chartData['name']} .heading`).html(chartData['heading']);
+  }
 
   var selector = "#chart_"+chartData['name']+" .card-body";
   var chart = dc[chartData['chartType']](selector);
@@ -77,6 +80,7 @@ function chartTemplate(c) {
                         </div>
                     </div>
                     <div class="card-body">
+                        <span class="heading"></span>
                     </div>
                 </div>
             </div>`
@@ -115,6 +119,7 @@ function editChart(chartid) {
         $("#chartType").val(chartData['chartType']);
         $("#chartWidth").val(chartData['width']);
         $("#chartHeight").val(chartData['height']);
+        $("#chartHeading").val(chartData['heading']);
         generateChartOptions(chartData);
     }
 }
@@ -136,7 +141,8 @@ function buildChartObj() {
         "grp" : $("#chartGrp").val(),
         "chartType" : chartType,
         "width" :  $("#chartWidth").val(),
-        "height" :  $("#chartHeight").val()
+        "height" :  $("#chartHeight").val(),
+        "heading" : $("#chartHeading").val()
     }
     chartData['options'] = buildChartOptions(chartType);
     return chartData;

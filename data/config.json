@@ -92,6 +92,7 @@
       "chartType": "rowChart",
       "width": "7",
       "height": "200",
+      "heading": "Enrolled Totals by Degree granting schools",
       "options": {
         "valueAccessor": "function (d) { return d.value.sum }",
         "xAxis": {
