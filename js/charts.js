@@ -6,67 +6,82 @@ import { crossDims } from './cross.js'
 const charts = ko.observableArray();
 
 function addChart(chartData) {
-  var ci = charts().findIndex(function(d) { return d['name'] == chartData['name'] });
-
-  if (ci == -1) {
-    charts.push(chartData);
+  if (chartData['chartType'] == 'geoChoroplethChart') {
+    d3.json('/data/us-states.json').then(function(map) {
+        console.log(map);
+        doStuff(map);
+    });
   } else {
-    $("#chart_"+chartData['name']).remove();
-    charts()[ci] = chartData;
+    doStuff();
   }
+  function doStuff(preload) {
+      var ci = charts().findIndex(function(d) { return d['name'] == chartData['name'] });
 
-  var gi = grps().findIndex(function(d) { return d['name'] == chartData['grp'] });
-  var grpObj = grps()[gi];
-  var dim = crossDims[chartData['dim']];
-  var grp = grpMaker(dim,grpObj);
+      if (ci == -1) {
+        charts.push(chartData);
+      } else {
+        $("#chart_"+chartData['name']).remove();
+        charts()[ci] = chartData;
+      }
 
-  var html = chartTemplate(chartData)
-  $("#graphContainer").append(html);
+      var gi = grps().findIndex(function(d) { return d['name'] == chartData['grp'] });
+      var grpObj = grps()[gi];
+      var dim = crossDims[chartData['dim']];
+      var grp = grpMaker(dim,grpObj);
+
+      var html = chartTemplate(chartData)
+      $("#graphContainer").append(html);
 
 
-  if (chartData['heading']) {
-    $(`#chart_${chartData['name']} .heading`).html(chartData['heading']);
-  }
+      if (chartData['heading']) {
+        $(`#chart_${chartData['name']} .heading`).html(chartData['heading']);
+      }
 
-  var selector = "#chart_"+chartData['name']+" .card-body";
-  var chart = dc[chartData['chartType']](selector);
+      var selector = "#chart_"+chartData['name']+" .card-body";
+      var chart = dc[chartData['chartType']](selector);
 
-  if (chartData['chartType'] != 'numberDisplay') {
-    chart.dimension(dim);
-  }
 
-  if (chartData['chartType'] != 'selectMenu') {
-    chart.group(grp);
-  } else {
-    chart.group(dim.group());
-  }
+      if (chartData['chartType'] != 'numberDisplay') {
+        chart.dimension(dim);
+      }
+
+      if (chartData['chartType'] != 'selectMenu') {
+        chart.group(grp);
+      } else {
+        chart.group(dim.group());
+      }
+
+        if (chartData['chartType'] == 'geoChoroplethChart') {
+            chart.overlayGeoJson(preload.features,"state", function(d) { return d.properties.name });
+        }
 
         chart.width($(selector).width())
          .height(parseInt(chartData['height']));
 
-  if (chartData['options']) {
-      Object.keys(chartData['options']).forEach(function(o) {
-        if (o == "xAxis") {
-            Object.keys(chartData['options'][o]).forEach(function(ox) {
-                var get_func = "(function a() { return "+chartData['options'][o][ox]+ " })()";
-                chart.xAxis()[ox](eval(get_func));
-            });
-        } else if (o == "yAxis") {
-            Object.keys(chartData['options'][o]).forEach(function(oy) {
-                var get_func = "(function a() { return "+chartData['options'][o][oy]+ " })()";
-                chart.yAxis()[oy](eval(get_func));
-            });
-        } else {
-            var get_func = "(function a() { return "+chartData['options'][o]+ " })()";
-            chart[o](eval(get_func));
-        }
-      });
-  }
+      if (chartData['options']) {
+          Object.keys(chartData['options']).forEach(function(o) {
+            if (o == "xAxis") {
+                Object.keys(chartData['options'][o]).forEach(function(ox) {
+                    var get_func = "(function a() { return "+chartData['options'][o][ox]+ " })()";
+                    chart.xAxis()[ox](eval(get_func));
+                });
+            } else if (o == "yAxis") {
+                Object.keys(chartData['options'][o]).forEach(function(oy) {
+                    var get_func = "(function a() { return "+chartData['options'][o][oy]+ " })()";
+                    chart.yAxis()[oy](eval(get_func));
+                });
+            } else {
+                var get_func = "(function a() { return "+chartData['options'][o]+ " })()";
+                chart[o](eval(get_func));
+            }
+          });
+      }
 
-  chart.render();
-  $(".chartEditButton").click(function() { editChart($(this).attr('cid')) });
-  $(".chartRemoveButton").click(function() { removeChart($(this).attr('cid')) });
-  dc.renderAll();
+      chart.render();
+      $(".chartEditButton").click(function() { editChart($(this).attr('cid')) });
+      $(".chartRemoveButton").click(function() { removeChart($(this).attr('cid')) });
+      dc.renderAll();
+    }
 }
 
 function chartTemplate(c) {
