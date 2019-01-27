@@ -7,7 +7,10 @@ const charts = ko.observableArray();
 
 function addChart(chartData) {
   if (chartData['chartType'] == 'geoChoroplethChart') {
-    d3.json('/data/us-states.json').then(function(map) {
+    var data_loc = window.location.origin + 
+                    location.pathname.split('/').splice(0,location.pathname.split('/').length-1).join("/") +
+                    '/data/us-states.json';
+    d3.json(data_loc).then(function(map) {
         console.log(map);
         doStuff(map);
     });
