@@ -78,7 +78,7 @@ function saveClean() {
     }
     cleans.push(clean);
     updateCleanTable();
-    //buildIndex();
+    buildIndex();
 }
 
 function cleanRemove(_d) {

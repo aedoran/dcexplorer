@@ -92,7 +92,7 @@ function initChartBindings() {
             addChart(buildChartObj())
         });
         generateChartOptions();
-        $("#chartType").on('change',generateChartOptions);
+        $("#chartType").on('change',function() {generateChartOptions()});
         generateChartOptions();
         function dimViewModel() {
             this.dims = dims;

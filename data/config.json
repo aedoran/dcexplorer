@@ -23,6 +23,12 @@
       "func": "function clean(d) {\n    return parseInt(d['YEAR']) || 0\n}",
       "editLink": "<button cid='year' class='cleanEditButton' role='button'>Edit</button>",
       "removeLink": "<button cid='year' class='cleanRemoveButton' role='button'>Remove</button>"
+    },
+    {
+      "name": "state",
+      "func": "function clean(d) {\n    return  d[\"STABBR\"] || \"asdf\";\n}",
+      "editLink": "<button cid='state' class='cleanEditButton' role='button'>Edit</button>",
+      "removeLink": "<button cid='state' class='cleanRemoveButton' role='button'>Remove</button>"
     }
   ],
   "dims": [
@@ -49,6 +55,12 @@
       "func": "function getDim(d) {\n    return 1;\n}",
       "editLink": "<button did='nodimension' class='dimEditButton' role='button'>Edit</button>",
       "removeLink": "<button did='nodimension' class='dimRemoveButton' role='button'>Remove</button>"
+    },
+    {
+      "name": "stateDim",
+      "func": "function getDim(d) {\n    return d['state'];\n}",
+      "editLink": "<button did='stateDim' class='dimEditButton' role='button'>Edit</button>",
+      "removeLink": "<button did='stateDim' class='dimRemoveButton' role='button'>Remove</button>"
     }
   ],
   "grps": [
@@ -122,6 +134,18 @@
       "height": "200",
       "options": {
         "controlsUseVisibility": "1"
+      }
+    },
+    {
+      "name": "pieState2dfd",
+      "dim": "stateDim",
+      "grp": "simpleCount",
+      "chartType": "pieChart",
+      "width": "4",
+      "height": "200",
+      "heading": "Schools By State",
+      "options": {
+        "valueAccessor": "function (d) { return d.value.count }"
       }
     }
   ],
