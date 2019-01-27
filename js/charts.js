@@ -56,20 +56,28 @@ function addChart(chartData) {
   function doStuff(preload) {
       var ci = charts().findIndex(function(d) { return d['name'] == chartData['name'] });
 
+      var html = chartTemplate(chartData)
+      //$("#graphContainer").append(html);
+
       if (ci == -1) {
+        //$("#graphContainer").append(html);
         charts.push(chartData);
       } else {
-        $("#chart_"+chartData['name']).remove();
+        //$("#chart_"+chartData['name']).replaceWith(html);
         charts()[ci] = chartData;
       }
 
+      if ($("#cahrt_"+chartData['name']).length) {
+        $("#chart_"+chartData['name']).replaceWith(html);
+      } else {
+        $("#graphContainer").append(html);
+      }
+    
       var gi = grps().findIndex(function(d) { return d['name'] == chartData['grp'] });
       var grpObj = grps()[gi];
       var dim = crossDims[chartData['dim']];
       var grp = grpMaker(dim,grpObj);
 
-      var html = chartTemplate(chartData)
-      $("#graphContainer").append(html);
 
 
       if (chartData['heading']) {
@@ -93,7 +101,9 @@ function addChart(chartData) {
         if (chartData['chartType'] == 'geoChoroplethChart') {
             var maptype = chartData.options['GEO'];
             chart.overlayGeoJson(mapmap[maptype].arr(preload),mapmap[maptype].id, mapmap[maptype].lookup);
-            chart.projection(d3.geoAlbersUsa().fitSize([$(selector).width(),chartData['height']],preload))
+            chart.projection(d3.geoAlbersUsa().fitSize([$(selector).width(),chartData['height']],preload));
+            //chart.legend(dc.legend().x(40).y(40).itemHeight(13).gap(5).legendText(function() { return "Hi" }));
+            //chart.legend(dc.legend().legendText(function(d, i) { return "Hi" }));
         }
 
         chart.width($(selector).width())

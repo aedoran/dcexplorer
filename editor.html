@@ -30,6 +30,10 @@
         height: 300px;
     }
 
+.modal-dialog {
+    margin-top: 500px;
+}
+
 .btn-clipboard {
     position: absolute;
     top: .5rem;
@@ -49,8 +53,17 @@
     float: right;
 }
 
+.chartEditButton, .chartRemoveButton {
+    display: none;
+}
 
+.card:hover .chartEditButton {
+    display: inline-block;
+}
 
+.card:hover .chartRemoveButton {
+    display: inline-block;
+}
 
 </style>
   </head>
