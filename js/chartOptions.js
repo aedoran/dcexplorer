@@ -17,10 +17,27 @@ function editorInputTmpl(c) {
                 <small id='${c.id}Help' class='form-text text-muted'>${c.help}</small>
             </div>`
 }
+function selectInputTmpl(c) {
+    return `
+            <div class='form-group'>
+                <label for='${c.id}'>${c.instructions}</label>
+                <select id='${c.id}' dcfunc='${c.dcfunc}' calss='${c.optionType}'>
+                </select>
+                <small id='${c.id}Help' class='form-text text-muted'>${c.help}</small>
+            </div>`
+}
 
 function initEditor(id) {
     return function() {
         createEditor(id);
+    }
+}
+
+function initSelect(id,options) {
+    return function() {
+        options.forEach(function(o) {
+            $(`#${id}`).append(`<option value='${o}'>${o}</option>`);
+        });
     }
 }
 
@@ -101,6 +118,52 @@ function setOption(chartOptions,id,dfunc,value) {
 
 
 const chartOptions = {
+    "geoChoroplethChart" : [{
+        optionType : "geoChoroplethChartOption",
+        id : "geoChoroplethChartOptionValueAccessor",
+        dcfunc : "valueAccessor",
+        placeholder : "function (d) { return d.value.count }",
+        instructions : "add a function based on the group",
+        help : "",
+        tmpl : editorInputTmpl,
+        init : initEditor('geoChoroplethChartOptionValueAccessor')
+    },{
+        optionType : "geoChoroplethChartOption",
+        id : "geoChoroplethChartOptionColors",
+        dcfunc : "colors",
+        placeholder : `d3.scaleQuantize().range(["#E2F2FF", "#C4E4FF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"])`,
+        instructions: "Color output function",
+        help: '',
+        tmpl : editorInputTmpl,
+        init : initEditor('geoChoroplethChartOptionColors')
+    },{
+        optionType : "geoChoroplethChartOption",
+        id : "geoChoroplethChartOptionColorDomain",
+        dcfunc : "colorDomain",
+        placeholder : `[0, 200]`,
+        instructions: "Color input rangee",
+        help: 'This should have the max and min of the input values',
+        tmpl : editorInputTmpl,
+        init : initEditor('geoChoroplethChartOptionColorDomain')
+    },{
+        optionType : "geoChoroplethChartOption",
+        id : "geoChoroplethChartOptionColorCalculator",
+        dcfunc : "colorCalculator",
+        placeholder : `function (d) { return d ? this.colors()(d) : '#ccc'; }`,
+        instructions: "Color input calculator",
+        help: 'handy to handle when values are messing what colors should it default to',
+        tmpl : editorInputTmpl,
+        init : initEditor('geoChoroplethChartOptionColorCalculator')
+    },{
+        optionType : "geoChoroplethChartOption",
+        id : "geoChoroplethChartOptionOverlayGEO",
+        dcfunc : "GEO",
+        placeholder : `[0, 200]`,
+        instructions: 'Choose a map',
+        help: 'This chooses which map to use',
+        tmpl : selectInputTmpl,
+        init : initSelect('geoChoroplethChartOptionOverlayGEO',['usstates'])
+    }],
     "numberDisplay" : [{
         optionType : "numberDisplayOption",
         id : "numberDisplayOptionValueAccessor",
