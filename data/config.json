@@ -141,12 +141,28 @@
       }
     },
     {
+      "name": "countCountyChart",
+      "dim": "countyDim",
+      "grp": "simpleCount",
+      "chartType": "geoChoroplethChart",
+      "width": "4",
+      "height": "200",
+      "heading": "Count of Schools per County",
+      "options": {
+        "valueAccessor": "function (d) { return (d.value && d.value.count) || 0 }",
+        "colors": "d3.scaleQuantize().range([\"#E2F2FF\", \"#C4E4FF\", \"#9ED2FF\", \"#81C5FF\", \"#6BBAFF\", \"#51AEFF\", \"#36A2FF\", \"#1E96FF\", \"#0089FF\", \"#0061B5\"])",
+        "colorDomain": "[0, 200]",
+        "colorCalculator": "function (d) { return d ? this.colors()(d) : '#ccc'; }",
+        "GEO": "uscounties"
+      }
+    },
+    {
       "name": "countYearSchoolsCount",
       "dim": "yearDim",
       "grp": "simpleCount",
       "chartType": "barChart",
       "width": "4",
-      "height": "200",
+      "height": "125",
       "heading": "Count of schools per year",
       "options": {
         "centerBar": "1",
@@ -175,7 +191,7 @@
       "dim": "degreeGrantDim",
       "grp": "enrolled",
       "chartType": "rowChart",
-      "width": "4",
+      "width": "8",
       "height": "125",
       "heading": "Enrolled Totals by Degree granting schools",
       "options": {
