@@ -44,7 +44,6 @@ function addChart(chartData) {
             //console.log(map);
             //var test2 = topojson.feature(map,map.objects.counties);
             //downloadThing(test2,'us-counties.json')
-            console.log(map);
             doStuff(map);
         } else {
             doStuff(map);
@@ -68,7 +67,7 @@ function addChart(chartData) {
         charts()[ci] = chartData;
       }
 
-      if ($("#cahrt_"+chartData['name']).length) {
+      if ($("#chart_"+chartData['name']).length) {
         $("#chart_"+chartData['name']).replaceWith(html);
       } else {
         $("#graphContainer").append(html);
@@ -140,7 +139,7 @@ function addChart(chartData) {
 
 function chartTemplate(c) {
     return `
-            <div class='col-${c.width} ml-0 p-0 mb-1 mr-1' id='chart_${c.name}'>
+            <div class='ml-0 p-0 mb-1 mr-1' id='chart_${c.name}' style="width:${c.width*100}px">
                 <div class='card'>
                     <div class="bid-clipboard">
                         <div class='btn-group btn-clipboard' role='group'>
@@ -225,7 +224,7 @@ function moveUp(id) {
     el.insertBefore(prev);
     
     var ci = charts().findIndex(function(d) { return d['name'] == id });
-    console.log(array_move(charts(),ci,ci-1));
+    array_move(charts(),ci,ci-1);
 }
 
 function moveDown(id) {
@@ -235,7 +234,7 @@ function moveDown(id) {
     el.insertAfter(after);
 
     var ci = charts().findIndex(function(d) { return d['name'] == id });
-    console.log(array_move(charts(),ci,ci+1));
+    array_move(charts(),ci,ci+1);
 }
 
 function buildChartObj() {
