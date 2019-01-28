@@ -56,6 +56,7 @@ function addChart(chartData) {
   function doStuff(preload) {
       var ci = charts().findIndex(function(d) { return d['name'] == chartData['name'] });
 
+
       var html = chartTemplate(chartData)
       //$("#graphContainer").append(html);
 
@@ -156,6 +157,12 @@ function chartTemplate(c) {
 
 function initChartBindings() {
     $(document).ready( function () {
+        $("#moveChartUpButton").click(function() {
+            moveUp($("#chartName").val());
+        });
+        $("#moveChartDownButton").click(function() {
+            moveDown($("#chartName").val());
+        });
         $("#addChartButton").click(function() {
             addChart(buildChartObj())
         });
@@ -198,6 +205,37 @@ function removeChart(chartid) {
     if (i != -1) {
         charts.splice(i, 1);
     }
+}
+
+function array_move(arr, old_index, new_index) {
+    if (new_index >= arr.length) {
+        var k = new_index - arr.length + 1;
+        while (k--) {
+            arr.push(undefined);
+        }
+    }
+    arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+    return arr; // for testing
+};
+
+function moveUp(id) {
+    var elid = `#chart_${id}`;
+    var el = $(elid);
+    var prev = el.prev();
+    el.insertBefore(prev);
+    
+    var ci = charts().findIndex(function(d) { return d['name'] == id });
+    console.log(array_move(charts(),ci,ci-1));
+}
+
+function moveDown(id) {
+    var elid = `#chart_${id}`;
+    var el = $(elid);
+    var after = el.next();
+    el.insertAfter(after);
+
+    var ci = charts().findIndex(function(d) { return d['name'] == id });
+    console.log(array_move(charts(),ci,ci+1));
 }
 
 function buildChartObj() {
