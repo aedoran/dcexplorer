@@ -222,6 +222,23 @@ const chartOptions = {
     }],
     "barChart" : [{ 
         optionType : "barChartOption",
+        id : "barChartOptionCenter",
+        dcfunc : "centerBar",
+        placeholder : "true",
+        instructions : "Whether the bar should be centered",
+        help : "",
+        tmpl : inputTextTmpl
+    },{
+        optionType : "barChartOption",
+        id : "barChartOptionXAxisTicks",
+        dcfunc : "ticks",
+        placeholder : "3",
+        instructions : "Number of ticks ",
+        help : "use d3.timeYear.every(1) for every year",
+        tmpl : editorInputTmpl,
+        init : initEditor('barChartOptionXAxisTicks')
+    },{
+        optionType : "barChartOption",
         id : "barChartOptionX",
         dcfunc : "x",
         placeholder : "d3.scaleLinear().domain([6,20])",
@@ -247,15 +264,6 @@ const chartOptions = {
         help : "use this: https://github.com/d3/d3-format to understand how to do more",
         tmpl : editorInputTmpl,
         init : initEditor('barChartOptionXAxisTickFormat')
-    },{
-        optionType : "barChartOption",
-        id : "barChartOptionYAxisTickFormat",
-        dcfunc : "tickFormat",
-        placeholder : "d3.format('.2s')",
-        instructions : "Function to format the axis Y values",
-        help : "use this: https://github.com/d3/d3-format to understand how to do more",
-        tmpl : editorInputTmpl,
-        init : initEditor('barChartOptionYAxisTickFormat')
     }],
     "selectMenu" : [{
         optionType : "selectMenuOption",

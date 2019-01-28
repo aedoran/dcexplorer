@@ -99,12 +99,73 @@
   ],
   "charts": [
     {
+      "name": "schoolCount",
+      "dim": "nodimension",
+      "grp": "simpleCount",
+      "chartType": "numberDisplay",
+      "width": "4",
+      "height": "200",
+      "heading": "",
+      "options": {
+        "valueAccessor": "function (d) { return d.value.count }",
+        "html": "{\n one:\"%number School\",\n some:\"%number Schools\",\n none:\"No Schools\"\n }"
+      }
+    },
+    {
+      "name": "selectMenu",
+      "dim": "controlDim",
+      "grp": "simpleCount",
+      "chartType": "selectMenu",
+      "width": "4",
+      "height": "200",
+      "heading": "",
+      "options": {
+        "controlsUseVisibility": "1",
+        "multiple": ""
+      }
+    },
+    {
+      "name": "countStateChart",
+      "dim": "stateDim",
+      "grp": "simpleCount",
+      "chartType": "geoChoroplethChart",
+      "width": "4",
+      "height": "200",
+      "heading": "Count of Schools per state",
+      "options": {
+        "valueAccessor": "function (d) { return d.value.count }",
+        "colors": "d3.scaleQuantize().range([\"#E2F2FF\", \"#C4E4FF\", \"#9ED2FF\", \"#81C5FF\", \"#6BBAFF\", \"#51AEFF\", \"#36A2FF\", \"#1E96FF\", \"#0089FF\", \"#0061B5\"])",
+        "colorDomain": "[0, 800]",
+        "colorCalculator": "function (d) { return d ? this.colors()(d) : '#ccc'; }",
+        "GEO": "usstates"
+      }
+    },
+    {
+      "name": "countYearSchoolsCount",
+      "dim": "yearDim",
+      "grp": "simpleCount",
+      "chartType": "barChart",
+      "width": "4",
+      "height": "200",
+      "heading": "Count of schools per year",
+      "options": {
+        "centerBar": "1",
+        "xAxis": {
+          "ticks": "7",
+          "tickFormat": "d3.format(\"d\")"
+        },
+        "x": "d3.scaleLinear().domain([2011,2018])",
+        "valueAccessor": "function (d) { return d.value.count }"
+      }
+    },
+    {
       "name": "pieControlCount",
       "dim": "controlDim",
       "grp": "simpleCount",
       "chartType": "pieChart",
       "width": "4",
-      "height": "200",
+      "height": "125",
+      "heading": "Count by Control",
       "options": {
         "valueAccessor": "function (d) { return d.value.count }"
       }
@@ -114,8 +175,8 @@
       "dim": "degreeGrantDim",
       "grp": "enrolled",
       "chartType": "rowChart",
-      "width": "7",
-      "height": "200",
+      "width": "4",
+      "height": "125",
       "heading": "Enrolled Totals by Degree granting schools",
       "options": {
         "valueAccessor": "function (d) { return d.value.sum }",
@@ -124,63 +185,7 @@
         },
         "elasticX": "1"
       }
-    },
-    {
-      "name": "numberAvgEnrollment",
-      "dim": "nodimension",
-      "grp": "enrolled",
-      "chartType": "numberDisplay",
-      "width": "4",
-      "height": "200",
-      "heading": "",
-      "options": {
-        "valueAccessor": "function (d) { return d.value.count }",
-        "html": "{\n one:\"%number School\",\n some:\"%number Total Schools\",\n none:\"No Schools\"\n }"
-      }
-    },
-    {
-      "name": "selectMenu",
-      "dim": "controlDim",
-      "grp": "simpleCount",
-      "chartType": "selectMenu",
-      "width": "5",
-      "height": "200",
-      "options": {
-        "controlsUseVisibility": "1"
-      }
-    },
-    {
-      "name": "choroplethStateCount",
-      "dim": "stateDim",
-      "grp": "enrolled",
-      "chartType": "geoChoroplethChart",
-      "width": "7",
-      "height": "300",
-      "heading": "Schools By State",
-      "options": {
-        "valueAccessor": "function (d) { return (d.value && d.value.count) || 0 }",
-        "colors": "d3.scaleQuantize().range([\"#E2F2FF\", \"#C4E4FF\", \"#9ED2FF\", \"#81C5FF\", \"#6BBAFF\", \"#51AEFF\", \"#36A2FF\", \"#1E96FF\", \"#0089FF\", \"#0061B5\"])",
-        "colorDomain": "[0, 400]",
-        "colorCalculator": "function (d) { return d ? this.colors()(d) : '#ccc'; }",
-        "GEO": "usstates"
-      }
-    },
-    {
-      "name": "choroplethCountyCount",
-      "dim": "countyDim",
-      "grp": "enrolled",
-      "chartType": "geoChoroplethChart",
-      "width": "7",
-      "height": "300",
-      "heading": "Schools By County",
-      "options": {
-        "valueAccessor": "function (d) { return (d.value && d.value.count) || 0 }",
-        "colors": "d3.scaleQuantize().range([\"#E2F2FF\", \"#C4E4FF\", \"#9ED2FF\", \"#81C5FF\", \"#6BBAFF\", \"#51AEFF\", \"#36A2FF\", \"#1E96FF\", \"#0089FF\", \"#0061B5\"])",
-        "colorDomain": "[0, 200]",
-        "colorCalculator": "function (d) { return d ? this.colors()(d) : '#ccc'; }",
-        "GEO": "uscounties"
-      }
     }
   ],
-  "style": "body {\n    background: white;\n}"
+  "style": "body {\n    background: white;\n}\n\n#graphContainer {\n    width: 850px;\n}"
 }

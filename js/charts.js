@@ -36,6 +36,25 @@ function downloadThing(json,filename) {
 
 
 function addChart(chartData) {
+  var ci = charts().findIndex(function(d) { return d['name'] == chartData['name'] });
+
+
+  var html = chartTemplate(chartData)
+  //$("#graphContainer").append(html);
+
+  if (ci == -1) {
+    //$("#graphContainer").append(html);
+    charts.push(chartData);
+  } else {
+    //$("#chart_"+chartData['name']).replaceWith(html);
+    charts()[ci] = chartData;
+  }
+
+  if ($("#chart_"+chartData['name']).length) {
+    $("#chart_"+chartData['name']).replaceWith(html);
+  } else {
+    $("#graphContainer").append(html);
+  }
   if (chartData['chartType'] == 'geoChoroplethChart') {
     var maptype = chartData.options['GEO'];
     d3.json(mapmap[maptype].loc).then(function(map) {
@@ -53,25 +72,6 @@ function addChart(chartData) {
     doStuff();
   }
   function doStuff(preload) {
-      var ci = charts().findIndex(function(d) { return d['name'] == chartData['name'] });
-
-
-      var html = chartTemplate(chartData)
-      //$("#graphContainer").append(html);
-
-      if (ci == -1) {
-        //$("#graphContainer").append(html);
-        charts.push(chartData);
-      } else {
-        //$("#chart_"+chartData['name']).replaceWith(html);
-        charts()[ci] = chartData;
-      }
-
-      if ($("#chart_"+chartData['name']).length) {
-        $("#chart_"+chartData['name']).replaceWith(html);
-      } else {
-        $("#graphContainer").append(html);
-      }
     
       var gi = grps().findIndex(function(d) { return d['name'] == chartData['grp'] });
       var grpObj = grps()[gi];
