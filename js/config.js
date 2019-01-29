@@ -13,7 +13,6 @@ function initConfigBindings() {
         var loc = $("#configLocation").val()+"?"+Math.random();
         loadConfig(loc);
     });
-
     var loc = $("#configLocation").val()+"?"+Math.random();
 }
 
@@ -59,7 +58,7 @@ function parseConfig(c) {
 }
 
 function loadConfig(loc) {
-    $.getJSON(loc,function(d) {
+    $.getJSON(loc+"?"+Math.random(),function(d) {
         parseConfig(d);
         buildIndex();
         loadCrossDims();
