@@ -84,12 +84,12 @@ function setHTMLOption(id,dcfunc,el,chartData) {
 
 function buildChartOptions(chartType) {
   var chartOptions = {};
-  $("."+chartType+"Option").each(function(o) {  
+  $("."+chartType+"Option").each(function(o) {
     var id = $(this).attr('id');
     var dfunc = $(this).attr('dcfunc');
     if ($(this).attr("class").indexOf("ace_editor") != -1) {
         //chartOptions[dfunc] = editors[id].getValue();
-        setOption(chartOptions,id,dfunc,editors[id].getValue()) 
+        setOption(chartOptions,id,dfunc,editors[id].getValue())
     } else{
         setOption(chartOptions,id,dfunc,$(this).val())
     }
@@ -220,7 +220,7 @@ const chartOptions = {
         instructions : "Whether the x scale gets normalized after each filter",
         tmpl : inputTextTmpl
     }],
-    "barChart" : [{ 
+    "barChart" : [{
         optionType : "barChartOption",
         id : "barChartOptionCenter",
         dcfunc : "centerBar",
@@ -281,6 +281,32 @@ const chartOptions = {
         help : "use \"true\"  or \"false\"",
         instructions : "show multiple or not",
         tmpl : inputTextTmpl
+    }],
+    "cboxMenu" : [{
+      optionType : "cboxMenuOption",
+      id : "cboxMenuOptionControlsUseVisibility",
+      dcfunc : "controlsUseVisibility",
+      placeHolder : "1",
+      help : "use \"1\"  or \"0\"",
+      instructions : "Whether the x scale gets normalized after each filter",
+      tmpl : inputTextTmpl
+  },{
+      optionType : "cboxMenuOption",
+      id : "cboxMenuOptionMultiple",
+      dcfunc : "multiple",
+      placeHolder : "true",
+      help : "use \"true\"  or \"false\"",
+      instructions : "show multiple or not",
+      tmpl : inputTextTmpl
+  },{
+      optionType : "cboxMenuOption",
+      id : "cboxMenuOptionValueAccessor",
+      dcfunc : "valueAccessor",
+      placeholder : "function (d) { return d.value.count }",
+      instructions : "add a function based on the group",
+      help : "just use the example and change the endpoints",
+      tmpl : editorInputTmpl,
+      init : initEditor('cboxMenuOptionValueAccessor')
     }]
 }
 

@@ -72,7 +72,7 @@ function addChart(chartData) {
     doStuff();
   }
   function doStuff(preload) {
-    
+
       var gi = grps().findIndex(function(d) { return d['name'] == chartData['grp'] });
       var grpObj = grps()[gi];
       var dim = crossDims[chartData['dim']];
@@ -85,8 +85,10 @@ function addChart(chartData) {
       }
 
       var selector = "#chart_"+chartData['name']+" .card-body";
+      console.log(selector);
       var chart = dc[chartData['chartType']](selector);
-
+      console.log(chart);
+      console.log(chartData);
 
       if (chartData['chartType'] != 'numberDisplay') {
         chart.dimension(dim);
@@ -222,7 +224,7 @@ function moveUp(id) {
     var el = $(elid);
     var prev = el.prev();
     el.insertBefore(prev);
-    
+
     var ci = charts().findIndex(function(d) { return d['name'] == id });
     array_move(charts(),ci,ci-1);
 }
