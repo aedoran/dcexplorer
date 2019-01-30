@@ -3,10 +3,14 @@ import { buildIndex } from './cross.js';
 import { raw } from './loadRaw.js';
 
 const cleans = ko.observableArray();
-
+let cleanFilter = `function(d) {
+  return true
+}`
 function initCleanBindings() {
     $(document).ready( function () {
         createEditor('cleanEditor');
+        createEditor('filterEditor')
+        $("#saveFilterButton").click(saveFilter);
         $("#saveCleanButton").click(saveClean);
         $("#downloadCleanedButton").click(downloadCleaned);
         $("#cleanTable").DataTable({
@@ -19,6 +23,24 @@ function initCleanBindings() {
         });
     });
 }
+
+
+function saveFilter() {
+  updateCleanFilter(editors['filterEditor'].getValue());
+}
+
+
+function updateCleanFilter(s) {
+  if (s) {
+    cleanFilter = s;
+    editors['filterEditor'].setValue(s);
+  }
+}
+
+function getCleanFilter() {
+  return cleanFilter;
+}
+
 
 
 function loadMetaIntoCleanModal(meta) {
@@ -99,14 +121,19 @@ function createCleanedData() {
         cleanFunctions[c['name']] = eval(get_func);
     })
 
+    var get_func = "(function a() { return "+cleanFilter+ " })()";
+    var _f = eval(get_func);
 
-    raw.forEach(function(r) {
+    raw.filter(function(d) {
+        var result = _f(d);
+        return result
+    }).forEach(function(r) {
         var cleaned = {}
         cleans().forEach(function(c) {
             cleaned[c['name']] = cleanFunctions[c['name']](r);
         });
         cleanedData.push(cleaned);
-    }); 
+    });
     return cleanedData;
 }
 
@@ -116,5 +143,7 @@ export {
     loadMetaIntoCleanModal,
     initCleanBindings,
     updateCleanTable,
-    createCleanedData
+    createCleanedData,
+    updateCleanFilter,
+    getCleanFilter
 }

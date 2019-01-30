@@ -83,6 +83,47 @@
 
     </nav>
 
+        <!-- Cleaner Modal -->
+        <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">FilterModal</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                  <div class="container-fluid">
+
+        <form>
+          <div class="form-group">
+            <label for="filterEditor">Filter Function</label>
+            <div id="filterEditor" class='modal-editor'>function (d) {
+            return true;
+        }</div>
+            <small id="filterEditorHelp" class="form-text text-muted">return true to include false to filter out</small>
+          </div>
+        </form>
+
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="saveFilterButton" type="button" class="btn btn-primary">Add Filter</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+
 <!-- Cleaner Modal -->
 <div class="modal fade" id="cleanModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
@@ -196,9 +237,9 @@
     <label for="grpDim">Choose Grouping Functions</label>
     <div>
     <select multiple id="grpFuncs">
-        <option value="count">count</option>    
-        <option value="sum">sum</option>    
-        <option value="avg">avg</option>    
+        <option value="count">count</option>
+        <option value="sum">sum</option>
+        <option value="avg">avg</option>
     </select>
     </div>
   </div>
@@ -384,7 +425,7 @@
                   </select>
               </div>
               <div id="chartOptions">
-                Chart Options   
+                Chart Options
               </div>
             </form>
           </div>
@@ -404,6 +445,11 @@
 
       <!-- Sidebar -->
       <ul class="sidebar navbar-nav">
+        <li class="nav-item">
+        <a class="nav-link" data-toggle="modal" data-target="#filterModal">
+            Filter the Data
+        </a>
+        </li>
         <li class="nav-item">
         <a class="nav-link" data-toggle="modal" data-target="#cleanModal">
             Clean the Data

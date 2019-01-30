@@ -1,4 +1,4 @@
-import { cleans, updateCleanTable } from './cleans.js'
+import { cleans, updateCleanTable, getCleanFilter, updateCleanFilter } from './cleans.js'
 import { dims, updateDimTable } from './dims.js'
 import { grps, updateGrpTable } from './groups.js'
 import { charts, addChart } from './charts.js'
@@ -33,7 +33,8 @@ function createConfig() {
         "dims" : dims(),
         "grps" : grps(),
         "charts": charts(),
-        "style" : getStyle()
+        "style" : getStyle(),
+        "filter" : getCleanFilter()
     }
     return data;
 }
@@ -55,6 +56,7 @@ function parseConfig(c) {
     updateCleanTable();
     updateDimTable();
     updateStyle(c['style']);
+    updateCleanFilter(c['filter'])
 }
 
 function loadConfig(loc) {
@@ -68,7 +70,7 @@ function loadConfig(loc) {
     });
 }
 
-export { 
+export {
     initConfigBindings,
     loadConfig
 }
