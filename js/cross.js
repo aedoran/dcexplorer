@@ -13,7 +13,7 @@ function addCrossDim(name,func) {
     if (Object.keys(crossDims).indexOf(name) != -1) {
         removeCrossDim(name);
     }
-    
+
     var get_func = "(function a() { return "+func+ " })()";
     var dim = indx.dimension(eval(get_func));
     crossDims[name] = dim;
@@ -25,8 +25,12 @@ function loadCrossDims() {
     });
 }
 
-function buildIndex() {
-    indx = crossfilter(createCleanedData());
+function buildIndex(cleanedData) {
+    if (cleanedData) {
+      indx = crossfilter(cleanData)
+    } else {
+      indx = crossfilter(createCleanedData());
+    }
 }
 
 export {

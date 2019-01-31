@@ -6,6 +6,14 @@ function getQueryStringParam(value) {
     return p.length ? p[0] : null
 }
 
+function getData(loc,callback) {
+    var splits = loc.split('.');
+    var fileType = splits[splits.length-1].toLowerCase();
+
+    d3[fileType](loc).then(callback);
+}
+
 export {
-    getQueryStringParam
+    getQueryStringParam,
+    getData
 }

@@ -72,5 +72,6 @@ function loadConfig(loc) {
 
 export {
     initConfigBindings,
-    loadConfig
+    loadConfig,
+    parseConfig
 }

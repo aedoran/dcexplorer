@@ -2,6 +2,8 @@ import { editors, createEditor } from './editors.js';
 import { buildIndex } from './cross.js';
 import { raw } from './loadRaw.js';
 
+let cleanedData = [];
+let loadFromFile = false;
 const cleans = ko.observableArray();
 let cleanFilter = `function(d) {
   return true
@@ -42,6 +44,18 @@ function getCleanFilter() {
 }
 
 
+function getCleanedData() {
+  if (loadFromFile) {
+    return cleanedData;
+  } else {
+    return createCleanedData();
+  }
+}
+
+function setCleanedData(s) {
+  cleanedData = s;
+  loadFromFile = true;
+}
 
 function loadMetaIntoCleanModal(meta) {
     $('#columnCleanerTable').DataTable({
@@ -111,30 +125,35 @@ function cleanRemove(_d) {
     }
     updateCleanTable();
 }
+
+
 function createCleanedData() {
     var cleanFunctions = {}
-    var cleanedData = [];
+    var _cleanedData = [];
 
+    if (loadFromFile) {
+      return cleanedData
+    } else {
+      cleans().forEach(function(c) {
+          var get_func = "(function a() { return "+c['func']+ " })()";
+          cleanFunctions[c['name']] = eval(get_func);
+      })
 
-    cleans().forEach(function(c) {
-        var get_func = "(function a() { return "+c['func']+ " })()";
-        cleanFunctions[c['name']] = eval(get_func);
-    })
+      var get_func = "(function a() { return "+cleanFilter+ " })()";
+      var _f = eval(get_func);
 
-    var get_func = "(function a() { return "+cleanFilter+ " })()";
-    var _f = eval(get_func);
-
-    raw.filter(function(d) {
-        var result = _f(d);
-        return result
-    }).forEach(function(r) {
-        var cleaned = {}
-        cleans().forEach(function(c) {
-            cleaned[c['name']] = cleanFunctions[c['name']](r);
-        });
-        cleanedData.push(cleaned);
-    });
-    return cleanedData;
+      raw.filter(function(d) {
+          var result = _f(d);
+          return result
+      }).forEach(function(r) {
+          var cleaned = {}
+          cleans().forEach(function(c) {
+              cleaned[c['name']] = cleanFunctions[c['name']](r);
+          });
+          _cleanedData.push(cleaned);
+      });
+      return _cleanedData;
+    }
 }
 
 export {
@@ -145,5 +164,7 @@ export {
     updateCleanTable,
     createCleanedData,
     updateCleanFilter,
-    getCleanFilter
+    getCleanFilter,
+    setCleanedData,
+    getCleanedData
 }

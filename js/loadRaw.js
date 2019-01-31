@@ -10,16 +10,6 @@ function initRawBindings() {
         $("#loadSourceButton").click(function () {
             loadSource($("#sourceLocation").val())
         })
-        
-        var p = getQueryStringParam('source');
-        if (p) {
-            loadSource(p,function() {
-                var p2 = getQueryStringParam('config');
-                if (p2) {
-                    loadConfig(p2);
-                }
-            });
-        }
     });
 }
 
@@ -42,10 +32,10 @@ function loadSource(f,callback) {
         };
         meta.push(props);
       });
-        loadMetaIntoCleanModal(meta) 
+        loadMetaIntoCleanModal(meta)
         $("#loadSourceButton").html("Load Source Data");
 
-        if (callback) { 
+        if (callback) {
             callback()
         }
     });
@@ -53,8 +43,8 @@ function loadSource(f,callback) {
 
 
 
-export { 
-    raw, 
+export {
+    raw,
     meta,
     initRawBindings
 }
