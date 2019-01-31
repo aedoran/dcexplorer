@@ -1,4 +1,4 @@
-import { initRawBindings } from './loadRaw.js'
+import { initRawBindings, loadSource} from './loadRaw.js'
 import { initConfigBindings, parseConfig } from './config.js'
 import { initCleanBindings, setCleanedData } from './cleans.js'
 import { initDimBindings } from './dims.js'
@@ -20,8 +20,38 @@ function loadEditorOld() {
 }
 
 function loadViz() {
-    console.debug("loadViz");
-    initRawBindings();
+  var source = getQueryStringParam("source");
+  var config = getQueryStringParam("config");
+  var cleaned = getQueryStringParam("cleaned");
+
+  if (cleaned) {
+      getData(cleaned,function(cleanData) {
+          setCleanedData(cleanData);
+          if (config) {
+              getData(config,function(configData) {
+                  parseConfig(configData);
+                  buildIndex();
+                  loadCrossDims();
+                  charts().forEach(function(c) {
+                    addChart(c);
+                  })
+              })
+          }
+      })
+  } else if (source) {
+      loadSource(source,function() {
+          if (config) {
+              getData(config,function(configData) {
+                  parseConfig(configData);
+                  buildIndex();
+                  loadCrossDims();
+                  charts().forEach(function(c) {
+                    addChart(c);
+                  })
+              })
+          }
+      })
+  }
 }
 
 function loadEditor() {
@@ -32,6 +62,19 @@ function loadEditor() {
   if (cleaned) {
       getData(cleaned,function(cleanData) {
           setCleanedData(cleanData);
+          if (config) {
+              getData(config,function(configData) {
+                  parseConfig(configData);
+                  buildIndex();
+                  loadCrossDims();
+                  charts().forEach(function(c) {
+                    addChart(c);
+                  })
+              })
+          }
+      })
+  } else if (source) {
+      loadSource(source,function() {
           if (config) {
               getData(config,function(configData) {
                   parseConfig(configData);

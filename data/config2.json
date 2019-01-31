@@ -35,6 +35,48 @@
       "func": "function clean(d) {\n    return  d['EFDETOT__All'] || 0\n}",
       "editLink": "<button cid='enrolled' class='cleanEditButton' role='button'>Edit</button>",
       "removeLink": "<button cid='enrolled' class='cleanRemoveButton' role='button'>Remove</button>"
+    },
+    {
+      "name": "collegetype",
+      "func": "function clean(d) {\n    return  d['C15RECODE'] || 0\n}",
+      "editLink": "<button cid='collegetype' class='cleanEditButton' role='button'>Edit</button>",
+      "removeLink": "<button cid='collegetype' class='cleanRemoveButton' role='button'>Remove</button>"
+    },
+    {
+      "name": "carnegie",
+      "func": "function clean(d) {\n    return  d['CARNEGIE'] || 0\n}",
+      "editLink": "<button cid='carnegie' class='cleanEditButton' role='button'>Edit</button>",
+      "removeLink": "<button cid='carnegie' class='cleanRemoveButton' role='button'>Remove</button>"
+    },
+    {
+      "name": "oncampusall",
+      "func": "function clean(d) {\n    return  d['EFONCAMPUS__All'] || 0\n}",
+      "editLink": "<button cid='oncampusall' class='cleanEditButton' role='button'>Edit</button>",
+      "removeLink": "<button cid='oncampusall' class='cleanRemoveButton' role='button'>Remove</button>"
+    },
+    {
+      "name": "oncampusdegree",
+      "func": "function clean(d) {\n    return  d['EFONCAMPUS__Degree'] || 0\n}",
+      "editLink": "<button cid='oncampusdegree' class='cleanEditButton' role='button'>Edit</button>",
+      "removeLink": "<button cid='oncampusdegree' class='cleanRemoveButton' role='button'>Remove</button>"
+    },
+    {
+      "name": "oncampusgrad",
+      "func": "function clean(d) {\n    return  d['EFONCAMPUS__Grad'] || 0\n}",
+      "editLink": "<button cid='oncampusgrad' class='cleanEditButton' role='button'>Edit</button>",
+      "removeLink": "<button cid='oncampusgrad' class='cleanRemoveButton' role='button'>Remove</button>"
+    },
+    {
+      "name": "oncampusnon",
+      "func": "function clean(d) {\n    return  d['EFONCAMPUS__Non'] || 0\n}",
+      "editLink": "<button cid='oncampusnon' class='cleanEditButton' role='button'>Edit</button>",
+      "removeLink": "<button cid='oncampusnon' class='cleanRemoveButton' role='button'>Remove</button>"
+    },
+    {
+      "name": "oncampusunder",
+      "func": "function clean(d) {\n    return  d['EFONCAMPUS__Under'] || 0\n}",
+      "editLink": "<button cid='oncampusunder' class='cleanEditButton' role='button'>Edit</button>",
+      "removeLink": "<button cid='oncampusunder' class='cleanRemoveButton' role='button'>Remove</button>"
     }
   ],
   "dims": [
@@ -73,6 +115,18 @@
       "func": "function getDim(d) {\n    return 1;\n}",
       "editLink": "<button did='noDim' class='dimEditButton' role='button'>Edit</button>",
       "removeLink": "<button did='noDim' class='dimRemoveButton' role='button'>Remove</button>"
+    },
+    {
+      "name": "carnegieDim",
+      "func": "function getDim(d) {\n    return d['carnegie'];\n}",
+      "editLink": "<button did='carnegieDim' class='dimEditButton' role='button'>Edit</button>",
+      "removeLink": "<button did='carnegieDim' class='dimRemoveButton' role='button'>Remove</button>"
+    },
+    {
+      "name": "collegeTypeDim",
+      "func": "function getDim(d) {\n    return d['collegetype'];\n}",
+      "editLink": "<button did='collegeTypeDim' class='dimEditButton' role='button'>Edit</button>",
+      "removeLink": "<button did='collegeTypeDim' class='dimRemoveButton' role='button'>Remove</button>"
     }
   ],
   "grps": [
@@ -142,14 +196,29 @@
       "dim": "levelDim",
       "grp": "count",
       "chartType": "cboxMenu",
-      "width": "3",
+      "width": "4",
       "height": "",
       "heading": "",
       "options": {
         "controlsUseVisibility": "",
         "multiple": "",
+        "valueAccessor": "function (d) { return d.value.count }"
+      }
+    },
+    {
+      "name": "stateMap",
+      "dim": "stateDim",
+      "grp": "count",
+      "chartType": "geoChoroplethChart",
+      "width": "8",
+      "height": "500",
+      "heading": "Count of Schools By State",
+      "options": {
         "valueAccessor": "function (d) { return d.value.count }",
-        "keyAccessor": "function (d) { return d.key }"
+        "colors": "d3.scaleQuantize().range([\"#E2F2FF\", \"#C4E4FF\", \"#9ED2FF\", \"#81C5FF\", \"#6BBAFF\", \"#51AEFF\", \"#36A2FF\", \"#1E96FF\", \"#0089FF\", \"#0061B5\"])",
+        "colorDomain": "[0, 200]",
+        "colorCalculator": "function (d) { return d ? this.colors()(d) : '#ccc'; }",
+        "GEO": "usstates"
       }
     },
     {
@@ -223,8 +292,22 @@
           "ticks": "3"
         }
       }
+    },
+    {
+      "name": "collegetypeSelector",
+      "dim": "collegeTypeDim",
+      "grp": "count",
+      "chartType": "cboxMenu",
+      "width": "3",
+      "height": "",
+      "heading": "",
+      "options": {
+        "controlsUseVisibility": "",
+        "multiple": "",
+        "valueAccessor": "function (d) { return d.value.count }"
+      }
     }
   ],
-  "style": "",
+  "style": "#graphContainer {\n    width : 850px;\n}\n\n#chart_controlSelector {\n    position:absolute;\n    left:950px;\n}\n#chart_sizeSelector {\n    position:absolute;\n    top:300px;\n    left:1050px;\n}\n#chart_controlSelector {\n    position:absolute;\n    left:1050px;\n}\n#chart_levelSelector {\n    position:absolute;\n    top:600px;\n    left:1050px;\n}\n#chart_collegetypeSelector {\n    position:absolute;\n    top:800px;\n    left:1050px;\n}\n\n#chart_sizeSelector .dc-cbox-group,\n#chart_levelSelector .dc-cbox-group,\n#chart_collegetypeSelector .dc-cbox-group,\n#chart_controlSelector .dc-cbox-group{\n    list-style: none;\n    padding:0px;\n}\n.dc-cbox-group li label {\n    padding-left: 10px;\n}",
   "filter": "function (d) {\n  var c1 = +d['EFDETOT__All'] > 0;\n  var c2 = d['OPENPUBL'] == 'Institution is open to the public';\n  var c3 = d['DEGGRANT'] == 'Degree-granting';\n  return (c1 && c2 && c3);\n}"
 }

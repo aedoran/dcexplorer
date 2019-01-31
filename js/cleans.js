@@ -35,7 +35,9 @@ function saveFilter() {
 function updateCleanFilter(s) {
   if (s) {
     cleanFilter = s;
-    editors['filterEditor'].setValue(s);
+    if (editors['filterEditor']) {
+      editors['filterEditor'].setValue(s);
+    }
   }
 }
 
