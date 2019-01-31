@@ -17,7 +17,7 @@ function initConfigBindings() {
 }
 
 function downloadConfig() {
-  var data = JSON.stringify(createConfig());
+  var data = JSON.stringify(createConfig(),null,2);
   var element = document.createElement('a');
   element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(data));
   element.setAttribute('download', "config.json");

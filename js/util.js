@@ -10,7 +10,7 @@ function getData(loc,callback) {
     var splits = loc.split('.');
     var fileType = splits[splits.length-1].toLowerCase();
 
-    d3[fileType](loc).then(callback);
+    d3[fileType](loc+"?"+Math.random()).then(callback);
 }
 
 export {

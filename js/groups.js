@@ -68,6 +68,7 @@ function grpMaker(dim,grpObj) {
     var _g = dim.group();
     var reducer = reductio();
     grpObj['aggs'].forEach(function(a) {
+
         if (a=="count") {
             reducer[a](true);
         } else {

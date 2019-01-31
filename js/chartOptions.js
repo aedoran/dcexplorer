@@ -257,6 +257,15 @@ const chartOptions = {
         init : initEditor('barChartOptionValueAccessor')
     },{
         optionType : "barChartOption",
+        id : "barChartOptionKeyAccessor",
+        dcfunc : "keyAccessor",
+        placeholder : "function (d) { return d.key }",
+        instructions : "Key Accessor",
+        help : "",
+        tmpl : editorInputTmpl,
+        init : initEditor('barChartOptionKeyAccessor')
+    },{
+        optionType : "barChartOption",
         id : "barChartOptionXAxisTickFormat",
         dcfunc : "tickFormat",
         placeholder : "d3.format('.2s')",
@@ -264,6 +273,32 @@ const chartOptions = {
         help : "use this: https://github.com/d3/d3-format to understand how to do more",
         tmpl : editorInputTmpl,
         init : initEditor('barChartOptionXAxisTickFormat')
+      },{
+          optionType : "barChartOption",
+          id : "barChartOptionElasticY",
+          dcfunc : "elasticY",
+          placeHolder : "1",
+          help : "use \"1\"  or \"0\"",
+          instructions : "Whether the Y scale gets normalized after each filter",
+          tmpl : inputTextTmpl
+    },{
+        optionType : "barChartOption",
+        id : "barChartOptionYAxisTickFormat",
+        dcfunc : "tickFormat",
+        placeholder : "d3.format('.2s')",
+        instructions : "Function to format the axis Y values",
+        help : "use this: https://github.com/d3/d3-format to understand how to do more",
+        tmpl : editorInputTmpl,
+        init : initEditor('barChartOptionYAxisTickFormat')
+    },{
+        optionType : "barChartOption",
+        id : "barChartOptionYAxisTicks",
+        dcfunc : "ticks",
+        placeholder : "3",
+        instructions : "Number of ticks ",
+        help : "use d3.timeYear.every(1) for every year",
+        tmpl : editorInputTmpl,
+        init : initEditor('barChartOptionYAxisTicks')
     }],
     "selectMenu" : [{
         optionType : "selectMenuOption",
