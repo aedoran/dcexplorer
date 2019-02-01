@@ -55,22 +55,21 @@ function addChart(chartData) {
   } else {
     $("#graphContainer").append(html);
   }
+
   if (chartData['chartType'] == 'geoChoroplethChart') {
     var maptype = chartData.options['GEO'];
     d3.json(mapmap[maptype].loc).then(function(map) {
-        if (maptype == 'uscounties') {
-            //var test = topojson.transform({"scale": [.5,.5]})
-            //console.log(map);
-            //var test2 = topojson.feature(map,map.objects.counties);
-            //downloadThing(test2,'us-counties.json')
-            doStuff(map);
-        } else {
-            doStuff(map);
-        }
+      doStuff(map);
     });
-  } else {
+  } else if (chartData['chartType'] != 'html') {
     doStuff();
+  } else {
+      var selector = "#chart_"+chartData['name']+" .card-body";
+      $(selector).html(chartData.options['html'])
+      $(".chartEditButton").click(function() { editChart($(this).attr('cid')) });
+      $(".chartRemoveButton").click(function() { removeChart($(this).attr('cid')) });
   }
+
   function doStuff(preload) {
 
       var gi = grps().findIndex(function(d) { return d['name'] == chartData['grp'] });

@@ -27,9 +27,9 @@ function selectInputTmpl(c) {
             </div>`
 }
 
-function initEditor(id) {
+function initEditor(id,mode) {
     return function() {
-        createEditor(id);
+        createEditor(id,mode);
     }
 }
 
@@ -342,6 +342,16 @@ const chartOptions = {
       help : "just use the example and change the endpoints",
       tmpl : editorInputTmpl,
       init : initEditor('cboxMenuOptionValueAccessor')
+    }],
+    "html" : [{
+      optionType : "htmlOption",
+      id : "htmlOptionContent",
+      dcfunc : "html",
+      placeholder : "<span>Hiya</span>",
+      instructions : "add some html",
+      help : "",
+      tmpl : editorInputTmpl,
+      init : initEditor('htmlOptionContent','ace/mode/html')
     }]
 }
 
