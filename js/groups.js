@@ -5,6 +5,7 @@ const grps = ko.observableArray();
 function initGroupBindings() {
     $(document).ready( function () {
         createEditor('grpEditor');
+        createEditor('grpExtraEditor');
         $("#saveGroupButton").click(saveGrp);
         $("#grpTable").DataTable({
             "data" : grps,
@@ -34,8 +35,11 @@ function  updateGrpTable() {
 function grpLoad(_d) {
     var grp = grps().filter(function(d) { return d.name == _d })[0];
     $("#grpName").val(grp['name']);
+    $("#grpExtraName").val(grp['extraName']);
     editors['grpEditor'].setValue(grp['func']);
+    editors['grpExtraEditor'].setValue(grp['extraFunc'] || "");
     $("#grpFuncs").val(grp['aggs']);
+    $("#grpExtraFuncs").val(grp['extraAggs']);
     $("#grpModal").modal();
 }
 
@@ -44,8 +48,11 @@ function saveGrp() {
 
     var grp = {
         "name" : name,
+        "extraName" : $("#grpExtraName").val(),
         "func" : editors['grpEditor'].getValue(),
+        "extraFunc" : editors['grpExtraEditor'].getValue(),
         "aggs" : $("#grpFuncs").val(),
+        "extraAggs" : $("#grpExtraFuncs").val(),
         "editLink" : "<button gid='"+name+"' class='groupEditButton' role='button'>Edit</button>",
         "removeLink" : "<button gid='"+name+"' class='groupRemoveButton' role='button'>Remove</button>"
     }
@@ -76,6 +83,19 @@ function grpMaker(dim,grpObj) {
             reducer[a](eval(get_func));
         }
     });
+
+    if  (grpObj['extraName']) {
+      var xtra = reducer.value(grpObj['extraName']);
+      grpObj['extraAggs'].forEach(function(a) {
+
+          if (a=="count") {
+              xtra[a](true);
+          } else {
+              var get_func = "(function a() { return "+grpObj['extraFunc']+ " })()";
+              xtra[a](eval(get_func));
+          }
+      });
+    }
 
     return reducer(_g);
 }

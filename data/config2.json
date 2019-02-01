@@ -158,6 +158,20 @@
       ],
       "editLink": "<button gid='test' class='groupEditButton' role='button'>Edit</button>",
       "removeLink": "<button gid='test' class='groupRemoveButton' role='button'>Remove</button>"
+    },
+    {
+      "name": "enrolledChange",
+      "extraName": "orig",
+      "func": "function getGrp(d) {\n    if (d.year == '2012') {\n        return -d.enrolled; \n    } else if (d.year == '2017') {\n        return +d.enrolled;\n    } else {\n        return 0;\n    }\n}",
+      "extraFunc": "function getGrp(d) {\n    if (d.year == '2012') {\n        return +d.enrolled; \n    } else {\n        return 0;\n    }\n}",
+      "aggs": [
+        "sum"
+      ],
+      "extraAggs": [
+        "sum"
+      ],
+      "editLink": "<button gid='enrolledChange' class='groupEditButton' role='button'>Edit</button>",
+      "removeLink": "<button gid='enrolledChange' class='groupRemoveButton' role='button'>Remove</button>"
     }
   ],
   "charts": [
@@ -208,15 +222,15 @@
     {
       "name": "stateMap",
       "dim": "stateDim",
-      "grp": "count",
+      "grp": "enrolledChange",
       "chartType": "geoChoroplethChart",
       "width": "8",
       "height": "500",
-      "heading": "Count of Schools By State",
+      "heading": "Percent Change of Enrollment from 2012 to 2018 by state",
       "options": {
-        "valueAccessor": "function (d) { return d.value.count }",
-        "colors": "d3.scaleQuantize().range([\"#E2F2FF\", \"#C4E4FF\", \"#9ED2FF\", \"#81C5FF\", \"#6BBAFF\", \"#51AEFF\", \"#36A2FF\", \"#1E96FF\", \"#0089FF\", \"#0061B5\"])",
-        "colorDomain": "[0, 200]",
+        "valueAccessor": "function (d) { \nif (d.value && d.value.sum && d.value.orig && d.value.orig.sum) {\n    return d.value.sum / d.value.orig.sum\n} else {\n    return 0\n}\n}",
+        "colors": "d3.scaleQuantize().range([\n\"#cb181d\", \n\"#fb6a4a\", \n\"#fcae91\", \n\"#fee5d9\",\n\"#edf8e9\", \n\"#bae4b3\", \n\"#74c476\", \n\"#238b45\"\n]);",
+        "colorDomain": "[-.15, .15]",
         "colorCalculator": "function (d) { return d ? this.colors()(d) : '#ccc'; }",
         "GEO": "usstates"
       }
@@ -288,7 +302,7 @@
         "keyAccessor": "function (d) { return d.key }",
         "elasticY": "1",
         "yAxis": {
-          "tickFormat": "d3.format('+.1%')",
+          "tickFormat": "d3.format('.1')",
           "ticks": "3"
         }
       }

@@ -26,7 +26,7 @@
     <link href="css/dc.css" rel="stylesheet">
 <style type="text/css" media="screen">
     .modal-editor {
-        width: 400px;
+        width: 800px;
         height: 300px;
     }
 
@@ -252,8 +252,30 @@
 }</div>
     <small id="grpJSFunctionHelp" class="form-text text-muted">this is the function to be used to do your sums</small>
   </div>
-</form>
 
+  <div class="form-group">
+    <label for="grpExtraName">Extra field</label>
+    <input class="form-control" id="grpExtraName" aria-describedby="grpExtraNameHelp" placeholder="">
+    <small id="grpNameHelp" class="form-text text-muted">useful for calculating percent changes</small>
+  </div>
+  <div class="form-group">
+    <label for="grpDim">Extra Function</label>
+    <div>
+    <select multiple id="grpExtraFuncs">
+        <option value="count">count</option>
+        <option value="sum">sum</option>
+        <option value="avg">avg</option>
+    </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="dimJSFunction">Group Function</label>
+    <div id="grpExtraEditor" class='modal-editor'>function getGrp(d) {
+    return d['columnName'];
+}</div>
+    <small id="grpJSFunctionHelp" class="form-text text-muted">this is the function to be used to do your sums</small>
+  </div>
+</form>
 
         </div>
       </div>
