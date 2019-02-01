@@ -206,6 +206,18 @@
       }
     },
     {
+      "name": "headText",
+      "dim": "controlDim",
+      "grp": "count",
+      "chartType": "html",
+      "width": "8",
+      "height": "",
+      "heading": "",
+      "options": {
+        "html": "Just choose a filter on the right and start slicin' and dicin'. Enjoy!"
+      }
+    },
+    {
       "name": "levelSelector",
       "dim": "levelDim",
       "grp": "count",
@@ -288,7 +300,7 @@
       "dim": "yearDim",
       "grp": "enrolled",
       "chartType": "barChart",
-      "width": "6",
+      "width": "4",
       "height": "200",
       "heading": "Percent Difference of Enrolled Students from year to year",
       "options": {
@@ -322,6 +334,6 @@
       }
     }
   ],
-  "style": "#graphContainer {\n    width : 850px;\n}\n\n#chart_controlSelector {\n    position:absolute;\n    left:950px;\n}\n#chart_sizeSelector {\n    position:absolute;\n    top:300px;\n    left:1050px;\n}\n#chart_controlSelector {\n    position:absolute;\n    left:1050px;\n}\n#chart_levelSelector {\n    position:absolute;\n    top:600px;\n    left:1050px;\n}\n#chart_collegetypeSelector {\n    position:absolute;\n    top:800px;\n    left:1050px;\n}\n\n#chart_sizeSelector .dc-cbox-group,\n#chart_levelSelector .dc-cbox-group,\n#chart_collegetypeSelector .dc-cbox-group,\n#chart_controlSelector .dc-cbox-group{\n    list-style: none;\n    padding:0px;\n}\n.dc-cbox-group li label {\n    padding-left: 10px;\n}",
+  "style": "#graphContainer {\n    width : 850px;\n}\n#chart_sizeSelector {\n    position:absolute;\n    top:200px;\n    left:820px;\n}\n#chart_controlSelector {\n    position:absolute;\n    left:820px;\n}\n#chart_levelSelector {\n    position:absolute;\n    top:450px;\n    left:820px;\n}\n#chart_collegetypeSelector {\n    position:absolute;\n    top:600px;\n    left:820px;\n}\n\n#chart_sizeSelector .dc-cbox-group,\n#chart_levelSelector .dc-cbox-group,\n#chart_collegetypeSelector .dc-cbox-group,\n#chart_controlSelector .dc-cbox-group{\n    list-style: none;\n    padding:0px;\n}\n.dc-cbox-group li label {\n    padding-left: 10px;\n}",
   "filter": "function (d) {\n  var c1 = +d['EFDETOT__All'] > 0;\n  var c2 = d['OPENPUBL'] == 'Institution is open to the public';\n  var c3 = d['DEGGRANT'] == 'Degree-granting';\n  return (c1 && c2 && c3);\n}"
 }

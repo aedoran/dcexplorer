@@ -26,7 +26,7 @@
     <link href="css/dc.css" rel="stylesheet">
 <style type="text/css" media="screen">
     .modal-editor {
-        width: 800px;
+        width: 700px;
         height: 300px;
     }
 
@@ -69,7 +69,7 @@
   </head>
 
   <body id="page-top">
-
+<!--
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
       <a class="navbar-brand mr-1" href="index.html">DC Explorer</a>
@@ -77,12 +77,61 @@
       <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
         <i class="fas fa-bars"></i>
       </button>
-
-
-
-
-    </nav>
-
+    </nav> -->
+    <nav class="navbar navbar-expand navbar-dark bg-dark" style="position: fixed; bottom: 0px; width: 100%; z-index:999">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+      <a class="nav-link" data-toggle="modal" data-target="#filterModal">
+          Filter the Data
+      </a>
+    </li>
+      <li class="nav-item">
+      <a class="nav-link" data-toggle="modal" data-target="#cleanModal">
+          Clean the Data
+      </a>
+      </li>
+      <li class="nav-item">
+      <a class="nav-link" id="downloadCleanedButton">
+          Download Cleaned Data
+      </a>
+      </li>
+      <li class="nav-item">
+      <a class="nav-link" data-toggle="modal" data-target="#dimModal">
+          Add a Dimension
+      </a>
+      </li>
+      <li class="nav-item">
+      <a class="nav-link" data-toggle="modal" data-target="#grpModal">
+          Add a Group
+      </a>
+      <li class="nav-item">
+      <a class="nav-link" data-toggle="modal" data-target="#sourceModal">
+          Load Source Data
+      </a>
+      </li>
+      </li>
+      <li class="nav-item">
+      <a class="nav-link" data-toggle="modal" data-target="#configModal">
+          Load Config
+      </a>
+      </li>
+      <li class="nav-item">
+      <a class="nav-link" id="downloadConfigButton">
+          Download Config
+      </a>
+      </li>
+      <li class="nav-item">
+      <a class="nav-link" data-toggle="modal" data-target="#chartModal">
+          Add a Chart
+      </a>
+      </li>
+      <li class="nav-item">
+      <a class="nav-link" data-toggle="modal" data-target="#styleModal">
+          Custom Style
+      </a>
+      </li>
+    </ul>
+  </nav>
         <!-- Filter Modal -->
         <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-lg" role="document">
@@ -467,59 +516,7 @@
 
     <div id="wrapper">
 
-      <!-- Sidebar -->
-      <ul class="sidebar navbar-nav">
-        <li class="nav-item">
-        <a class="nav-link" data-toggle="modal" data-target="#filterModal">
-            Filter the Data
-        </a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link" data-toggle="modal" data-target="#cleanModal">
-            Clean the Data
-        </a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link" id="downloadCleanedButton">
-            Download Cleaned Data
-        </a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link" data-toggle="modal" data-target="#dimModal">
-            Add a Dimension
-        </a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link" data-toggle="modal" data-target="#grpModal">
-            Add a Group
-        </a>
-        <li class="nav-item">
-        <a class="nav-link" data-toggle="modal" data-target="#sourceModal">
-            Load Source Data
-        </a>
-        </li>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link" data-toggle="modal" data-target="#configModal">
-            Load Config
-        </a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link" id="downloadConfigButton">
-            Download Config
-        </a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link" data-toggle="modal" data-target="#chartModal">
-            Add a Chart
-        </a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link" data-toggle="modal" data-target="#styleModal">
-            Custom Style
-        </a>
-        </li>
-      </ul>
+
       <div id="content-wrapper">
 
         <div class="container-fluid">
