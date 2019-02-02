@@ -241,9 +241,9 @@
       "heading": "Percent Change of Enrollment from 2012 to 2018 by state",
       "options": {
         "valueAccessor": "function (d) { \nif (d.value && d.value.sum && d.value.orig && d.value.orig.sum) {\n    return d.value.sum / d.value.orig.sum\n} else {\n    return 0\n}\n}",
-        "colors": "d3.scaleQuantize().range([\n\"#cb181d\", \n\"#fb6a4a\", \n\"#fcae91\", \n\"#fee5d9\",\n\"#edf8e9\", \n\"#bae4b3\", \n\"#74c476\", \n\"#238b45\"\n]);",
+        "colors": "d3.scaleQuantize().range(\nd3.schemeReds[6].map(function(d,i) { return d3.format(\"0=3\")(i).toString() + d}).reverse().map(function(d) { return d.substr(3,7) }).concat(d3.schemeGreens[6])\n);",
         "colorDomain": "[-.15, .15]",
-        "colorCalculator": "function (d) { return d ? this.colors()(d) : '#ccc'; }",
+        "colorCalculator": "function (d) { return d ? chart.colors()(d) : '#ccc'; }",
         "GEO": "usstates"
       }
     },

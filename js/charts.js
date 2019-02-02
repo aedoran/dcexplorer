@@ -105,6 +105,14 @@ function addChart(chartData) {
             chart.projection(d3.geoAlbersUsa().fitSize([$(selector).width(),chartData['height']],preload));
             //chart.legend(dc.legend().x(40).y(40).itemHeight(13).gap(5).legendText(function() { return "Hi" }));
             //chart.legend(dc.legend().legendText(function(d, i) { return "Hi" }));
+            chart.legendables = function () {
+              return chart.group().all().map(function (d, i) {
+                  var legendable = {name: d.key, data: d.value, others: d.others, chart: chart};
+                  legendable.color = chart.colorCalculator()(d.value);
+                return legendable;
+              });
+            };
+            chart.legend(dc.legend().x(400).y(10).itemHeight(13).gap(5));
         }
 
         chart.width($(selector).width())
@@ -130,7 +138,29 @@ function addChart(chartData) {
             }
           });
       }
-
+      if (chartData['chartType'] == 'geoChoroplethChart') {
+        chart.legendables = function () {
+          console.log(chart.colorDomain());
+          var t = chart.colors().thresholds();
+          console.log(t);
+          console.log(t.map(function(d) { return chart.colorCalculator()(d) }));
+          return t.map(function(d) {
+            return {name: d3.format('+1.0%')(d), chart:chart, color:chart.colorCalculator()(d)}
+          }).reverse();
+          /*
+          return [
+            {name: "-10%", data: "asdf", chart:chart, color :"#f00"},
+            {name: "+10%", data: "asdf", chart:chart, color :"#0f0"},
+          ]*/
+          /*
+          return chart.group().all().map(function (d, i) {
+              var legendable = {name: d.key, data: d.value, others: d.others, chart: chart};
+              legendable.color = chart.colorCalculator()(d.value);
+            return legendable;
+          });*/
+        };
+        chart.legend(dc.legend().x(10).y(10).itemHeight(13).autoItemWidth(true).gap(1).horizontal(false));
+      }
       chart.render();
       $(".chartEditButton").click(function() { editChart($(this).attr('cid')) });
       $(".chartRemoveButton").click(function() { removeChart($(this).attr('cid')) });
